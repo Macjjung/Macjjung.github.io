@@ -298,18 +298,45 @@
     <span class="step"><b>Solution.</b> 보상을 즉시 지급하고, 실시간 프로그레스 바로 달성 과정을 시각화했습니다.</span>
     <span class="step"><b>Result.</b> 프로모션 종료 직후 발생하던 '매출 절벽' 현상을 완화하며 참여와 구매를 함께 끌어올렸습니다.</span>
   </p>
-  <div class="phasegrid" style="grid-template-columns: 1fr 1fr;">
-    <div class="phasecard">
-      <div class="phaseimg" style="height:200px;"><img src="assets/event_As-Is.png" alt="As-Is — 보상을 1주일 뒤 지급하던 기존 이벤트 화면"></div>
+  <div class="phasegrid">
+    <div class="chartbox" style="padding:12px 14px 10px;">
+      <div class="charttitle">// 티켓 구매량 × 소모량 상관관계 (r=0.8485)</div>
+      <svg viewBox="0 0 300 190" width="100%" role="img" aria-label="티켓 구매량과 소모량 간의 강한 양의 상관관계를 보여주는 산점도, r값 0.8485">
+        <line x1="34" y1="16" x2="34" y2="150" stroke="var(--grid-line)"/>
+        <line x1="34" y1="150" x2="280" y2="150" stroke="var(--grid-line)"/>
+        <line x1="40" y1="140" x2="270" y2="30" stroke="var(--accent-tech)" stroke-width="2" stroke-dasharray="4 4" opacity="0.6"/>
+        <g fill="var(--accent-tech)">
+          <circle cx="55" cy="128" r="4"/>
+          <circle cx="70" cy="120" r="4"/>
+          <circle cx="88" cy="112" r="4"/>
+          <circle cx="95" cy="100" r="4"/>
+          <circle cx="115" cy="98" r="4"/>
+          <circle cx="130" cy="88" r="4"/>
+          <circle cx="140" cy="95" r="4"/>
+          <circle cx="155" cy="78" r="4"/>
+          <circle cx="170" cy="70" r="4"/>
+          <circle cx="185" cy="66" r="4"/>
+          <circle cx="195" cy="72" r="4"/>
+          <circle cx="210" cy="55" r="4"/>
+          <circle cx="225" cy="50" r="4"/>
+          <circle cx="240" cy="42" r="4"/>
+          <circle cx="255" cy="38" r="4"/>
+        </g>
+        <text x="34" y="166" font-size="10" font-weight="700" fill="var(--ink-3)">구매량 →</text>
+        <text x="10" y="14" font-size="10" font-weight="700" fill="var(--ink-3)">소모량↑</text>
+        <text x="272" y="26" font-size="12" font-weight="800" fill="var(--accent-tech)" text-anchor="end">r = 0.85</text>
+      </svg>
+      <div class="legend"><span><span class="sw tech"></span>이벤트 기간 유저 행동 데이터</span></div>
+    </div>
+    <div class="phasecard" style="padding:8px; gap:4px;">
+      <div class="phaseimg" style="height:auto; width:58%; margin:0 auto; aspect-ratio: 1232 / 1500;"><img src="assets/event_As-Is.png" alt="As-Is — 보상을 1주일 뒤 지급하던 기존 이벤트 화면" style="object-fit:contain;"></div>
       <div class="phasetag">AS-IS · 지연 보상</div>
       <h3>1주일 뒤 지급되는 보상</h3>
-      <p>구매·소모 시점과 보상 지급 시점이 분리돼, 이벤트 기간 안에 구매 동기를 붙잡지 못했습니다.</p>
     </div>
-    <div class="phasecard">
-      <div class="phaseimg" style="height:200px;"><img src="assets/event_To-Be.png" alt="To-Be — 실시간 프로그레스 바로 즉시 보상을 지급하는 개편 이벤트 화면"></div>
+    <div class="phasecard" style="padding:8px; gap:4px;">
+      <div class="phaseimg" style="height:auto; width:80%; margin:0 auto; aspect-ratio: 1822 / 1646;"><img src="assets/event_To-Be.png" alt="To-Be — 실시간 프로그레스 바로 즉시 보상을 지급하는 개편 이벤트 화면" style="object-fit:contain;"></div>
       <div class="phasetag">TO-BE · 즉시 보상</div>
       <h3>실시간 프로그레스 바 + 즉시 지급</h3>
-      <p>달성 과정을 실시간으로 시각화하고 보상을 즉시 지급해, 매출 절벽 현상을 완화했습니다.</p>
     </div>
   </div>
   <div class="statrow">
