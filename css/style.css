@@ -3,48 +3,8 @@
     --brand-primary: #FACA65;
     --brand-base: #0A0803;
 
-    --bg: #FBF8F1;
-    --surface: #FFFFFF;
-    --surface-2: #F3ECDC;
-    --border: #E8DFC8;
-    --ink: #0A0803;
-    --ink-2: #34301F;
-    --ink-3: #6B6452;
-    --accent-tech: #A97913;
-    --accent-tech-soft: #A979131A;
-    --accent-money: #7A4A0F;
-    --accent-money-soft: #7A4A0F1A;
-    --grid-line: #E8DFC8;
-
-    /* fixed-look chapter divider panel: intentionally identical in both themes */
-    --divider-bg: #0A0803;
-    --divider-ink: #FBF6EA;
-    --divider-ink-2: #DCD2B8;
-    --divider-ink-3: #978C6E;
-    --divider-accent: #FACA65;
-    --divider-border: #2A2415;
-
-    --font-kr: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
-    --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, "Liberation Mono", monospace;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #0A0803;
-      --surface: #17140C;
-      --surface-2: #201B10;
-      --border: #332C1B;
-      --ink: #FBF6EA;
-      --ink-2: #DCD2B8;
-      --ink-3: #978C6E;
-      --accent-tech: #FACA65;
-      --accent-tech-soft: #FACA6524;
-      --accent-money: #E8A93E;
-      --accent-money-soft: #E8A93E24;
-      --grid-line: #332C1B;
-    }
-  }
-  :root[data-theme="dark"] {
+    /* single dark palette — applied in every environment (no light variant) */
+    color-scheme: dark;
     --bg: #0A0803;
     --surface: #17140C;
     --surface-2: #201B10;
@@ -57,6 +17,17 @@
     --accent-money: #E8A93E;
     --accent-money-soft: #E8A93E24;
     --grid-line: #332C1B;
+
+    /* chapter divider panel — same dark look as the rest of the deck */
+    --divider-bg: #0A0803;
+    --divider-ink: #FBF6EA;
+    --divider-ink-2: #DCD2B8;
+    --divider-ink-3: #978C6E;
+    --divider-accent: #FACA65;
+    --divider-border: #2A2415;
+
+    --font-kr: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+    --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, "Liberation Mono", monospace;
   }
 
   * { box-sizing: border-box; }
