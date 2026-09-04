@@ -338,4 +338,37 @@
   .closing-msg strong { color: var(--ink); font-weight: 800; }
   .signature { margin-top: 40px; font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--ink-3); }
 
+  /* ---- slide 12 : CPO turnaround — 4-step process ---- */
+  .phasegrid.cols4 { grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  @media (max-width: 1100px) { .phasegrid.cols4 { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 620px) { .phasegrid.cols4 { grid-template-columns: 1fr; } }
+
+  .phasecard .procnum {
+    font-family: var(--font-mono); font-size: 11.5px; font-weight: 800;
+    color: var(--accent-tech); letter-spacing: 0.02em;
+  }
+  .phasecard .procnum.warn { color: var(--accent-money); }
+  .phasecard h3 .up { color: var(--accent-tech); }
+  .phasecard h3 .down { color: var(--accent-money); }
+
+  @media (min-width: 1101px) {
+    .phasegrid.cols4 > .phasecard:not(:last-child)::after { top: 48px; right: -11px; content: "→"; }
+    .phasegrid.cols4 > .phasecard.flip::after { content: "⇢"; color: var(--accent-money); font-size: 21px; font-weight: 800; }
+  }
+  @media (max-width: 1100px) {
+    .phasegrid.cols4 > .phasecard:not(:last-child)::after { display: none; }
+  }
+
+  .keytake {
+    margin-top: 18px; padding: 18px 22px; border-radius: 12px;
+    background: var(--divider-bg); color: var(--divider-ink);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .keytake .kt-label {
+    font-family: var(--font-mono); font-size: 11px; font-weight: 800;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--divider-accent);
+  }
+  .keytake p { margin: 0; font-size: 13.5px; line-height: 1.7; color: var(--divider-ink-2); max-width: 96ch; }
+  .keytake strong { color: var(--divider-ink); font-weight: 800; }
+
   ::selection { background: var(--accent-tech-soft); }

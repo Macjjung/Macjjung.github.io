@@ -384,43 +384,62 @@
   <div class="slidefoot"><span>CHAPTER 3</span><span>11 / 15</span></div>
 </section>
 
-<!-- ============ SLIDE 12 : CPO 턴어라운드 — 골드스푼 ============ -->
+<!-- ============ SLIDE 12 : CPO 첫 미션 — 골드스푼 턴어라운드 ============ -->
 <section class="slide" id="s12">
-  <div class="eyebrow">CPO TURNAROUND · 09</div>
-  <h2 class="h2">매출 하락 <span class="accent-m">-6%</span>의 원인을 규명하고 단가 조정을 주도하다</h2>
-  <p class="lede">CPO로서 골드스푼에 투입되어 받은 첫 미션은, 처음 겪는 매출 하락의 원인을 진단하는 것이었습니다.</p>
-  <div class="grid2">
-    <div>
-      <p class="body-text">
-        <span class="step"><b>Problem.</b> 골드스푼 월 매출이 상반기 처음으로 <strong>6% 감소</strong>했습니다.</span>
-        <span class="step"><b>Diagnosis.</b> 신규 기능 'TRUST'가 유저의 도달(Final Conversion) 비용을 약 50% 단축시켰지만, 그 결과 객단가가 약 7% 감소하는 부작용을 데이터로 확인했습니다.</span>
-        <span class="step"><b>Solution.</b> 기능 적용 범위를 전략적으로 축소하고 단가를 인상 재설계해 매출을 즉시 정상화했습니다.</span>
-      </p>
-      <div class="callout">최적화가 아니라 진단 → 원인 규명 → 정상화까지, CPO로서 문제 해결의 전 과정을 주도했습니다.</div>
+  <div class="eyebrow">CPO FIRST MISSION · 09</div>
+  <h2 class="h2">상반기 첫 역성장 <span class="accent-m">-6%</span>, 원인 규명부터 턴어라운드까지</h2>
+  <p class="lede">CPO 투입 직후 직면한 첫 매출 하락의 원인을 지표 트리로 역추적하고, 프로덕트 재설계를 통해 즉각 정상화했습니다.</p>
+
+  <div class="phasegrid cols4">
+    <div class="phasecard">
+      <div class="procnum warn">01 · 위기 진단 (PROBLEM)</div>
+      <h3>상반기 첫 <span class="down">역성장 -6%</span></h3>
+      <ul>
+        <li>서비스 출시 이래 첫 매출 하락 발생</li>
+        <li>당시 단행된 '스푼 가격 인상'과 '신규 기능 배포'가 겹쳐, 명확한 원인 분리가 시급한 상황</li>
+      </ul>
     </div>
-    <div>
-      <div class="chartbox">
-        <div class="charttitle">// 골드스푼 월매출 인덱스 — 하락과 정상화</div>
-        <svg viewBox="0 0 320 170" width="100%" role="img" aria-label="TRUST 기능 도입 이후 매출이 6% 하락했다가 조정 이후 정상화되는 꺾은선 그래프">
-          <line x1="34" y1="20" x2="34" y2="140" stroke="var(--grid-line)"/>
-          <line x1="34" y1="140" x2="300" y2="140" stroke="var(--grid-line)"/>
-          <line x1="90" y1="20" x2="90" y2="140" stroke="var(--grid-line)" stroke-dasharray="3 4"/>
-          <text x="90" y="14" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink-3)">TRUST 출시</text>
-          <polyline points="34,70 90,70 160,102 230,68 296,66" fill="none" stroke="var(--accent-money)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="90" cy="70" r="3.5" fill="var(--ink-3)"/>
-          <circle cx="160" cy="102" r="4.5" fill="var(--accent-money)"/>
-          <circle cx="296" cy="66" r="4.5" fill="var(--accent-tech)"/>
-          <text x="160" y="120" text-anchor="middle" font-size="11" font-weight="800" fill="var(--accent-money)">-6%</text>
-          <text x="296" y="56" text-anchor="end" font-size="11" font-weight="800" fill="var(--accent-tech)">정상화</text>
-        </svg>
-      </div>
-      <div class="statrow">
-        <div class="stat"><div class="v money">-6%</div><div class="l">상반기 최초 매출 하락</div></div>
-        <div class="stat"><div class="v">-50%</div><div class="l">Final Conversion 비용</div></div>
-        <div class="stat"><div class="v money">-7%</div><div class="l">객단가 하락</div></div>
-      </div>
+    <div class="phasecard flip">
+      <div class="procnum">02 · 가설 검증 (ANALYSIS)</div>
+      <h3>지표 트리 역추적으로 원인 지점 특정</h3>
+      <ul>
+        <li>매출을 MAU · ARPU · 객단가 · 구매건수 · 유저당 구매건수로 분해해 역추적</li>
+        <li>가격 인상에 따른 이탈(주문건수 급감) 가설 <strong>기각</strong> — 구매건수 유지 확인</li>
+        <li>핵심 원인으로 <span class="down">'객단가 -7% 급감'</span> 지점 특정</li>
+      </ul>
+    </div>
+    <div class="phasecard">
+      <div class="procnum">03 · 원인 규명 (ROOT CAUSE)</div>
+      <h3>신규 기능 'TRUST'의 역설적 결함</h3>
+      <ul>
+        <li>TRUST가 최종 전환(Final Conversion)까지의 소진 비용을 약 <strong>50% 단축</strong>시키는 성공</li>
+        <li>역설: 전환 효율이 과도하게 높아지며 유저당 결제 총액(객단가)을 잠식(Cannibalization)</li>
+        <li>UX 효율화 ↔ 객단가 잠식의 딜레마 발견</li>
+      </ul>
+    </div>
+    <div class="phasecard">
+      <div class="procnum">04 · 정상화 실행 (ACTION &amp; RESULT)</div>
+      <h3>노출 범위 축소 + <span class="up">BM 재설계</span></h3>
+      <ul>
+        <li>TRUST 노출 범위 및 전환 뎁스(Depth) 축소 조정</li>
+        <li>기능 소진 단가 상향 및 패키지 가격 구조 최적화 재설계</li>
+        <li>객단가 즉각 복구 → 상반기 매출 <strong>V자 턴어라운드</strong> 완료</li>
+      </ul>
     </div>
   </div>
+
+  <div class="statrow" style="margin-top:16px;">
+    <div class="stat"><div class="v money">-6%</div><div class="l">상반기 최초 매출 역성장</div></div>
+    <div class="stat"><div class="v money">-7%</div><div class="l">객단가 급감 (핵심 원인)</div></div>
+    <div class="stat"><div class="v">-50%</div><div class="l">TRUST 최종 전환 소진 비용</div></div>
+    <div class="stat"><div class="v">V자 회복</div><div class="l">객단가 복구 · 매출 정상화</div></div>
+  </div>
+
+  <div class="keytake">
+    <div class="kt-label">CPO의 핵심 역할</div>
+    <p>단순 UI 최적화나 롤백이 아닌, <strong>'지표 진단 → 딜레마(UX 효율화 vs 객단가 잠식) 규명 → BM 재조정'</strong>까지 제품 수익성을 방어한 문제 해결 전 과정을 주도했습니다.</p>
+  </div>
+
   <div class="slidefoot"><span>CHAPTER 3</span><span>12 / 15</span></div>
 </section>
 
