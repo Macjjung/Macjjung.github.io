@@ -40,7 +40,7 @@
       case 'architecture': return metrics(s.metrics)+cards(s.cards)+`<div class="compact-flow"><span>최초 등록<br><b>촬영·OCR → PG 등록 → 결제 키</b></span><span>반복 결제<br><b>앱 내 요청 → 키 기반 PG 승인</b></span></div>`;
       case 'inputs': return `<div class="input-model"><div><span>인센티브 구간</span><span>미용실 수수료</span><span>결제수단 수수료</span></div><strong>개인 조건에 맞는 정산</strong></div>${cards(s.cards)}`;
       case 'lanes': return `<div class="swimlanes"><div><h3>투숙객</h3><p>객실 태블릿 상품 선택 → 주문·결제</p></div><div><h3>서비스</h3><p>호텔오더 → RUMY 업무 수신·상태 관리</p></div><div><h3>매장·현장</h3><p>주문 확인 → 처리 → 객실 배송</p></div></div>${cards(s.cards)}`;
-      case 'career': return `<div class="career-grid">${s.items.map(([d,n,r])=>`<article><small>${esc(d)}</small><h3>${esc(n)}</h3><p>${esc(r)}</p></article>`).join('')}</div>${cards(s.cards)}<a class="text-link career-more" href="#appendix-g">바잉스퀘어 상세 ↗</a>`;
+      case 'career': return `<div class="career-grid">${s.items.map(([d,n,r])=>`<article><small>${esc(d)}</small><h3>${esc(n)}</h3><p>${esc(r)}</p></article>`).join('')}</div>`;
       default: return cards(s.cards);
     }
   }

@@ -434,13 +434,7 @@ window.PORTFOLIO = {
         ]
       ],
       "lead": "개발 경험을 제품 요구사항, 사업 판단, 운영 협업에 연결합니다.",
-      "appendix": "h",
-      "cards": [
-        {
-          "title": "바잉스퀘어 · 재직 2023.08–2024.02",
-          "body": "상품 데이터 요구사항 정의·엔지니어 협업, Apps Script·Zapier 주문 알림 자동화. DB 스키마 직접 설계는 담당하지 않았습니다."
-        }
-      ]
+      "appendix": "h"
     },
     {
       "id": "principles",
