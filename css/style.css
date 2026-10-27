@@ -57,3 +57,23 @@
   #appendix .image-placeholder > span { color: #9aa69e; }
   #appendix .heat-grid .heat-low { background: var(--pale); color: #000; }
 }
+
+/* Align detail links with the project label, independent of body length. */
+.slide-heading-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+.slide-heading-meta > .eyebrow { margin: 0; min-width: 0; }
+.slide-heading-meta > .appendix-link {
+  flex-shrink: 0;
+  margin: 0 0 0 auto;
+  gap: 12px;
+  white-space: nowrap;
+}
+@media (max-width: 700px) {
+  .slide-heading-meta { gap: 12px; margin-bottom: 16px; }
+  .slide-heading-meta > .appendix-link { font-size: 10px; gap: 6px; }
+}
