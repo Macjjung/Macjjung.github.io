@@ -1,24 +1,19 @@
 (async () => {
   'use strict';
-  // Private evidence is available automatically on loopback previews only.
-  const localReview = ['127.0.0.1', 'localhost', '[::1]'].includes(location.hostname);
-  if (localReview) {
-    try {
-      const response = await fetch('./assets/private-five/review.json', {cache:'no-store'});
-      if (!response.ok) throw new Error('Evidence unavailable');
-      const evidence = await response.json();
-      const appendix = window.PORTFOLIO.appendices.find(a => a.id === 'c');
-      appendix.raw += '\n\n' + evidence.raw;
-      appendix.images = evidence.images;
-      appendix.materials = [];
-      const results = window.PORTFOLIO.slides.find(s => s.id === 'five-results');
-      if (new URLSearchParams(location.search).get('review') === 'five') Object.assign(results, {kind:'five-kpi', kpis:evidence.kpis, title:'이용·매출 지표와 구매 전환을\n함께 비교했습니다.', lead:'로컬 검토 전용 · 더블유클럽 대비 원문 표기', subtitle:'더블유클럽 · Product Owner · Notion 원문 대조 2026.10.28', note:'집계 기간·표본·산식과 %/%p 구분은 미확인입니다. 전후 개선이나 인과 효과를 뜻하지 않습니다. 원본은 Appendix C에서 확인합니다.'});
-      document.querySelector('.disclosure').textContent = '로컬 검토 전용 · Notion 원문과 이미지 6종 포함. 인터뷰·인물 사진·내부 전략·매출은 비식별 및 공개 승인 전입니다.';
-    } catch {
-      document.querySelector('.disclosure').textContent = '로컬 근거 자료를 불러오지 못했습니다. assets/private-five 수집 파일을 확인하세요.';
-    }
+  const publicView = new URLSearchParams(location.search).get('view') === 'public';
+  if (publicView) {
+    window.PORTFOLIO.slides = window.PORTFOLIO.slides.filter(s => !s.pending);
+    window.PORTFOLIO.appendices = window.PORTFOLIO.appendices.filter(a => a.id !== 'd');
+    window.PORTFOLIO.slides.forEach(s => {
+      if(s.cards) s.cards = s.cards.filter(c => !/추가 정보 필요|추가 예정|명세 확인 필요|근거 보완 필요/.test(c.title+' '+c.body));
+      if(s.kind === 'closing') s.note = '';
+    });
   }
   const { slides, appendices, profile, aliases = {} } = window.PORTFOLIO;
+  const viewLink = document.createElement('a');
+  viewLink.href = publicView ? location.pathname + location.hash : '?view=public' + location.hash;
+  viewLink.textContent = publicView ? '편집용 보기' : '공개용 보기';
+  document.querySelector('.topbar nav').prepend(viewLink);
   const $ = s => document.querySelector(s);
   const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const lines = s => esc(s).replace(/\n/g, '<br>');
@@ -43,7 +38,7 @@
   function contact() {
     return `${profile.name?`<p class="profile-name">${esc(profile.name)}</p>`:''}${profile.email&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(profile.email)?`<a class="button primary" href="mailto:${esc(profile.email)}">연락하기 ↗</a>`:''}${profile.resume&&/^(\.\/)?assets\/[\w./ -]+\.pdf$/i.test(profile.resume)&&!profile.resume.includes('..')?`<a class="text-link" href="${esc(profile.resume)}">이력서 PDF ↗</a>`:''}`;
   }
-  function content(s) {
+  function baseContent(s) {
     switch(s.kind) {
       case 'impact': return impact();
       case 'bars': return charts(s);
@@ -63,6 +58,9 @@
       default: return cards(s.cards);
     }
   }
+  function content(s) {
+    return baseContent(s) + (['funnel','bars'].includes(s.kind)?cards(s.cards):'') + (s.flow?steps(s.flow):'') + (s.placeholder?`<div class="evidence-slot"><span>[이미지 삽입 영역]</span><p>${esc(s.placeholder)}</p></div>`:'');
+  }
   const sectionStarts = {
     impact: ['OVERVIEW', '문제와 판단', '사례별 문제·선택·실행·결과를 보여드립니다.', 'Growth · 제품 성장'],
     economy: ['PROJECT 01', '더멤버스 · 재화 정책', '사용자 신뢰를 지키며 재화 경제를 조정하는 역량', 'Monetization · 수익화'],
@@ -76,7 +74,7 @@
   };
   function article(s,i) {
     let body;
-    if(s.kind==='cover') body=`<div class="cover-layout"><div><p class="cover-meta"><span class="status-dot"></span> 지원 포지션 · NAVER WEBTOON SENIOR PM</p><h1>${lines(s.title).replace('제품으로 답합니다.','<em>제품으로 답합니다.</em>')}</h1><p class="cover-description">${lines(s.subtitle)}</p>${profile.name?`<p class="profile-name">${esc(profile.name)}</p>`:''}<div class="cover-actions"><a class="button primary" href="#impact">주요 성과 살펴보기 ↗</a><a class="text-link" href="#economy">프로젝트 바로 보기 →</a></div><div class="cover-tags">ENGINEERING → PRODUCT → BUSINESS</div></div><div class="cover-art" aria-hidden="true"><div class="art-label">ASK WHY.<br>BUILD TOGETHER.</div><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-core">P<span>↗</span></div><span class="art-note">DEFINE. BUILD. LEARN.</span></div></div><div class="cover-bottom"><span>추천 · 수익화 · 신규 출시 · 실행</span><span>${slides.length} SLIDES · ${appendices.length} DEEP DIVES</span></div>`;
+    if(s.kind==='cover') body=`<div class="cover-layout"><div><p class="cover-meta"><span class="status-dot"></span> 지원 포지션 · NAVER WEBTOON SENIOR PM</p><h1>${lines(s.title).replace('제품으로 답합니다.','<em>제품으로 답합니다.</em>')}</h1><p class="cover-description">${lines(s.subtitle)}</p>${profile.name?`<p class="profile-name">${esc(profile.name)}</p>`:''}<div class="cover-actions"><a class="button primary" href="#impact">주요 성과 살펴보기 ↗</a><a class="text-link" href="#economy">프로젝트 바로 보기 →</a></div><div class="cover-tags">ENGINEERING → PRODUCT STRATEGY & GROWTH</div></div><div class="selected-impact"><p class="eyebrow">SELECTED IMPACT</p><div><strong>약 6배</strong><span>더멤버스 월매출 성장 · 흑자 전환</span></div><div><strong>−28.1%</strong><span>더멤버스 무료 재화 지급량</span></div><div><strong>3.5개월</strong><span>파이브 신규 서비스 출시</span></div><div><strong>+11.3%</strong><span>골드스푼 호감 발신율 · 상대 개선</span></div><p class="note">서로 다른 제품·프로젝트의 성과입니다.</p></div></div><div class="cover-bottom"><span>문제 발견 · 출시와 검증 · 기획 · 리더십</span><span>${slides.length} SLIDES · ${appendices.length} DEEP DIVES</span></div>`;
     else if(s.kind==='closing') body=`<div class="closing"><p class="eyebrow">LET’S BUILD WHAT’S NEXT</p><h1>${lines(s.title)}</h1><p class="cover-description">${lines(s.subtitle)}</p><div class="cover-actions">${contact()}<a class="text-link" href="#impact">대표 성과 다시 보기 ↗</a><a class="text-link" href="#appendix">상세 자료 보기 ↓</a></div><p class="note">${esc(s.note)}</p></div>`;
     else body=`<header class="slide-heading"><div class="slide-heading-meta"><p class="eyebrow">${esc(s.group)} <span>${String(i+1).padStart(2,'0')} / ${slides.length}</span></p>${s.appendix?`<a class="appendix-link" href="#appendix-${s.appendix}">분석 기준과 상세 자료 <span>↗</span></a>`:''}</div><h1>${lines(s.title)}</h1>${s.lead?`<p class="lead">${esc(s.lead)}</p>`:''}<p class="subtitle">${esc(s.subtitle)}</p></header>${s.ownership?`<p class="ownership-line">${esc(s.ownership)}</p>`:''}${content(s)}${s.transfer?`<p class="transfer-line"><span>웹툰에서 이어갈 관점</span>${esc(s.transfer)}</p>`:''}${s.note?`<p class="note">${esc(s.note)}</p>`:''}`;
     const section=sectionStarts[s.id];
@@ -122,7 +120,7 @@
   }
   function go(i) {if(i>=0&&i<slides.length&&i!==current)location.hash=slides[i].id;}
   function markdown(text) {
-    return text.split('\n').filter(l=>l.trim()&&l!=='---').map(l=>{
+    return text.split('\n').filter(l=>l.trim()&&l!=='---'&&(!publicView||!/추가 정보 필요|자료 필요|추가 예정|이메일 입력|선택 사항|공개할 프로필/.test(l))).map(l=>{
       const bold=esc(l.replace(/^#+\s*/,'').replace(/^[-*] /,'')).replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
       if(l.startsWith('# '))return `<h3>${bold}</h3>`;
       if(l.startsWith('## '))return `<h4>${bold}</h4>`;
@@ -136,8 +134,8 @@
   }
   $('#appendix-nav').innerHTML=appendices.map(a=>`<a href="#appendix-${a.id}">${a.id.toUpperCase()} / ${esc(a.title)}</a>`).join('');
   $('#appendix-content').innerHTML=appendices.map(a=>`<details id="appendix-${a.id}"><summary><span>${a.id.toUpperCase()}</span><h3>${esc(a.title)}</h3><small>상세 설명 · 자료 · 검증 항목</small></summary><div class="appendix-body"><div class="appendix-detail">${a.brief?.length?`<div class="case-brief"><p class="eyebrow">판단과 실행 요약</p>${a.brief.map(b=>`<article><h4>${esc(b.title)}</h4><p>${esc(b.body)}</p></article>`).join('')}</div>`:''}${markdown(a.raw)}${a.id==='b'?heatmap():''}</div><aside><h4>확인 및 공개 승인</h4><ul>${a.checks.map(c=>`<li>${esc(c)} · 추후 검증</li>`).join('')}</ul><p class="note">내부 정책·수치·실제 자료는 공개 승인 확인 필요.</p><h4>제품 화면 & 원본 자료</h4><div class="gallery">${a.images.length?a.images.filter(i=>safePath(i.src)).map(i=>`<button class="image-thumb" data-image="${esc(i.src)}" data-alt="${esc(i.alt)}"><img src="${esc(i.src)}" alt="${esc(i.alt)}" loading="lazy"><span>${esc(i.alt)} ↗</span></button>`).join(''):`<div class="image-placeholder"><span>▧</span><strong>자료 추가 예정</strong><p>실제 화면과 원본 증빙이 제공되면<br>이곳에서 확대하여 볼 수 있습니다.</p></div>`}</div><ul class="material-list">${a.materials.map(m=>`<li>${esc(m)}<small>자료 추가 예정</small></li>`).join('')}</ul><a class="text-link" href="#${slides.find(s=>s.appendix===a.id)?.id||'career'}">해당 프로젝트로 돌아가기 ↑</a></aside></div></details>`).join('');
-  const groups=[['빠르게 보기',['cover','impact']],['01 / 재화 정책',['economy','economy-data']],['02 / 골드스푼 추천 배분',['matching','matching-next','matching-plan']],['03 / 신규 출시',['five','five-research','five-results']],['04 / 결제 개선',['payment','payment-architecture']],['다른 실행 경험',['hediple','hotel','career']],['일하는 방식과 마무리',['principles','closing']]];
-  $('#toc-list').innerHTML=groups.map(([name,ids])=>`<details class="toc-group"><summary>${name}<small>${ids.length}장</small></summary>${ids.map(id=>{const i=slides.findIndex(s=>s.id===id);return `<a href="#${id}"><span>${String(i+1).padStart(2,'0')}</span><div>${esc(slides[i].title.replace(/\n/g,' '))}</div><span>↗</span></a>`;}).join('')}</details>`).join('');
+  const groups = [['시작하기',['cover','impact']],['01 / 문제 발견과 판단',['economy','economy-data']],['02 / 출시와 검증',['five','five-results']],['03 / 정책 기획과 후속 설계',['matching','matching-next']],['04 / 리더십 · 준비 중',['leadership','leadership-results']],['마무리',['closing']]];
+  $('#toc-list').innerHTML=groups.map(([name,ids])=>[name,ids.filter(id=>slides.some(s=>s.id===id))]).filter(([,ids])=>ids.length).map(([name,ids])=>`<details class="toc-group"><summary>${name}<small>${ids.length}장</small></summary>${ids.map(id=>{const i=slides.findIndex(s=>s.id===id);return `<a href="#${id}"><span>${String(i+1).padStart(2,'0')}</span><div>${esc(slides[i].title.replace(/\n/g,' '))}</div><span>↗</span></a>`;}).join('')}</details>`).join('');
   $('#toc-open').addEventListener('click',()=>$('#toc-dialog').showModal());
   document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>b.closest('dialog').close()));
   document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}}));
