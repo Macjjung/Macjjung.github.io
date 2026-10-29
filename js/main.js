@@ -1,5 +1,23 @@
-(() => {
+(async () => {
   'use strict';
+  // Private evidence is available automatically on loopback previews only.
+  const localReview = ['127.0.0.1', 'localhost', '[::1]'].includes(location.hostname);
+  if (localReview) {
+    try {
+      const response = await fetch('./assets/private-five/review.json', {cache:'no-store'});
+      if (!response.ok) throw new Error('Evidence unavailable');
+      const evidence = await response.json();
+      const appendix = window.PORTFOLIO.appendices.find(a => a.id === 'c');
+      appendix.raw += '\n\n' + evidence.raw;
+      appendix.images = evidence.images;
+      appendix.materials = [];
+      const results = window.PORTFOLIO.slides.find(s => s.id === 'five-results');
+      if (new URLSearchParams(location.search).get('review') === 'five') Object.assign(results, {kind:'five-kpi', kpis:evidence.kpis, title:'이용·매출 지표와 구매 전환을\n함께 비교했습니다.', lead:'로컬 검토 전용 · 더블유클럽 대비 원문 표기', subtitle:'더블유클럽 · Product Owner · Notion 원문 대조 2026.10.28', note:'집계 기간·표본·산식과 %/%p 구분은 미확인입니다. 전후 개선이나 인과 효과를 뜻하지 않습니다. 원본은 Appendix C에서 확인합니다.'});
+      document.querySelector('.disclosure').textContent = '로컬 검토 전용 · Notion 원문과 이미지 6종 포함. 인터뷰·인물 사진·내부 전략·매출은 비식별 및 공개 승인 전입니다.';
+    } catch {
+      document.querySelector('.disclosure').textContent = '로컬 근거 자료를 불러오지 못했습니다. assets/private-five 수집 파일을 확인하세요.';
+    }
+  }
   const { slides, appendices, profile, aliases = {} } = window.PORTFOLIO;
   const $ = s => document.querySelector(s);
   const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -17,10 +35,10 @@
     }).join('')}</div>`;
   }
   const impact = () => `<div class="impact-grid">${[
-    ['약 6','배','전체 제품 성장','월매출 2,022만 → 1억 2,075만 원','2024.02 → 2026.07 · 여러 개선이 반영된 장기 성과','economy'],
-    ['11.3','% ↑','골드스푼 추천 배분','발신율 0.639% → 0.711%','상대 개선 · 후속 단계 전환율은 하락','matching-next'],
-    ['3.5','개월','신규 출시','첫 달 매출 2,500만 원','기존 모듈 활용 · 신규 타깃 정책 설계','five'],
-    ['50','% ↓','결제 비용','PG 수수료 6% → 3%','자체 OCR + PG 카드 등록·재결제','payment']
+    ['11.3','% ↑','추천 · 문제와 지표','반응 편차를 소개 배분에 반영','발신율 상대 개선 · 후속 전환 하락까지 분석','matching'],
+    ['28.1','% ↓','수익화 · 정책 판단','기존 잔액을 보호한 재화 조정','MAU 기준 무료 지급량 감소 · 전후 관찰','economy'],
+    ['3.5','개월','신규 출시 · 오너십','새 타깃의 수요를 별도 서비스로','경영진과 방향 협의 · 기획·출시 총괄','five'],
+    ['50','% ↓','결제 · 기술과 사업','반복 입력과 PG 비용을 함께 개선','수수료 6% → 3% · OCR과 PG 연결','payment']
   ].map(([v,u,t,d,n,id],i)=>`<a class="impact-card" href="#${id}"><span class="micro">0${i+1} / ${t}</span><div class="impact-value">${v}<small>${u}</small></div><h3>${d}</h3><p>${n}</p><span class="card-arrow" aria-hidden="true">↗</span></a>`).join('')}</div>`;
   function contact() {
     return `${profile.name?`<p class="profile-name">${esc(profile.name)}</p>`:''}${profile.email&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(profile.email)?`<a class="button primary" href="mailto:${esc(profile.email)}">연락하기 ↗</a>`:''}${profile.resume&&/^(\.\/)?assets\/[\w./ -]+\.pdf$/i.test(profile.resume)&&!profile.resume.includes('..')?`<a class="text-link" href="${esc(profile.resume)}">이력서 PDF ↗</a>`:''}`;
@@ -34,7 +52,8 @@
       case 'funnel': return `<div class="funnel-path"><span>노출</span><span>호감 발신</span><span>호감 수락</span><span>번호 오픈</span></div><div class="funnel-rates">${s.bars.map(b=>`<article><h3>${esc(b.label)}</h3><p class="rate-values">${b.before}% <span>→</span> <b>${b.after}%</b></p><strong class="${b.note.startsWith('−')?'negative':'positive'}">${esc(b.note)}</strong><p class="rate-denominator">분모: ${esc(b.label.split(' → ')[0])}</p></article>`).join('')}</div><p class="diagram-caption">단계별 전환율 비교 · 도형 크기는 사용자 수나 전환율을 나타내지 않습니다.</p>`;
       case 'pairs': return `<div class="comparison-pairs">${s.pairs.map(([l,v])=>`<div><span>${esc(l)}</span><strong>${v}</strong><small>관찰 기반 예상 최종 전환</small></div>`).join('')}</div>${cards(s.cards)}`;
       case 'decision': return `<div class="decision-wrap"><table class="decision"><caption>기존 서비스 통합 vs 별도 서비스 출시</caption><thead><tr><th scope="col">판단 기준</th><th scope="col">A · 기존 서비스 통합</th><th scope="col">B · 별도 출시 <span>선택</span></th></tr></thead><tbody>${s.rows.map(r=>`<tr><th scope="row">${r[0]}</th><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}</tbody></table></div>`;
-      case 'branch': return `<div class="research-insight"><span>인터뷰에서 얻은 관점</span><p>호감이 형성된 뒤에는 자녀 유무가 반드시 결정적 장애물이 되지는 않는다는 의견.</p></div><div class="branch-start">자녀 유무 기본 비공개 → 실제 만남 권장</div><div class="branch-options"><article><span>만남 이후 확인</span><strong>무료</strong></article><article><span>사전 확인 선택</span><strong>소개티켓 1장</strong><p>차감 안내 후 사용자가 선택</p></article></div>`;
+      case 'branch': return `<div class="research-insight"><span>인터뷰에서 얻은 관점</span><p>호감 이후 조건의 중요도가 낮아진다는 의견과 양육·나이 차이·관계에 대한 우려가 공존했습니다.</p></div><div class="branch-start">자녀 유무 기본 비공개 → 실제 만남 권장</div><div class="branch-options"><article><span>만남 이후 확인</span><strong>무료</strong></article><article><span>사전 확인 선택</span><strong>소개티켓 1장</strong><p>차감 안내 후 사용자가 선택</p></article></div>`;
+      case 'five-kpi': return `<div class="five-kpis">${s.kpis.map(([label,value,caption])=>`<article><span>${esc(label)}</span><strong class="${value.startsWith('−')?'negative':'positive'}">${esc(value)}</strong><small>${esc(caption)} · 원문 해석</small></article>`).join('')}</div><div class="compact-flow"><span>실행 범위<br><b>6인 팀 · PO / 디자인 / 개발</b></span><span>출시 소요<br><b>3.5개월 · 제품 결과물은 4개월 내 표기</b></span></div>`;
       case 'metrics': return metrics(s.metrics)+cards(s.cards);
       case 'beforeafter': return `<div class="journey-compare"><article><h3>BEFORE · 매 결제</h3>${steps(s.before)}<p>카드정보를 반복 입력</p></article><article><h3>AFTER · 최초 등록 이후</h3>${steps(s.after)}<p>등록된 결제 키를 사용</p></article></div>`;
       case 'architecture': return metrics(s.metrics)+cards(s.cards)+`<div class="compact-flow"><span>최초 등록<br><b>촬영·OCR → PG 등록 → 결제 키</b></span><span>반복 결제<br><b>앱 내 요청 → 키 기반 PG 승인</b></span></div>`;
@@ -45,7 +64,7 @@
     }
   }
   const sectionStarts = {
-    impact: ['OVERVIEW', '대표 성과', '추천·수익화·신규 출시의 성과와 판단을 보여줍니다.', 'Growth · 제품 성장'],
+    impact: ['OVERVIEW', '문제와 판단', '사례별 문제·선택·실행·결과를 보여드립니다.', 'Growth · 제품 성장'],
     economy: ['PROJECT 01', '더멤버스 · 재화 정책', '사용자 신뢰를 지키며 재화 경제를 조정하는 역량', 'Monetization · 수익화'],
     matching: ['PROJECT 02', '골드스푼 · 소개 로직', '노출부터 후속 전환까지 분석하는 역량', 'Recommendation · 추천'],
     five: ['PROJECT 03', '파이브 · 신규 출시', '새로운 시장 기회를 제품 출시로 연결하는 역량', '0→1 · 신규 제품'],
@@ -57,9 +76,9 @@
   };
   function article(s,i) {
     let body;
-    if(s.kind==='cover') body=`<div class="cover-layout"><div><p class="cover-meta"><span class="status-dot"></span> 지원 포지션 · NAVER WEBTOON SENIOR PM</p><h1>${lines(s.title).replace('제품으로 답합니다.','<em>제품으로 답합니다.</em>')}</h1><p class="cover-description">${lines(s.subtitle)}</p>${profile.name?`<p class="profile-name">${esc(profile.name)}</p>`:''}<div class="cover-actions"><a class="button primary" href="#impact">주요 성과 살펴보기 ↗</a><a class="text-link" href="#economy">프로젝트 바로 보기 →</a></div><div class="cover-tags">ENGINEERING → PRODUCT → BUSINESS</div></div><div class="cover-art" aria-hidden="true"><div class="art-label">FROM QUESTION<br>TO IMPACT.</div><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-core">P<span>↗</span></div><span class="art-note">DEFINE. BUILD. LEARN.</span></div></div><div class="cover-bottom"><span>추천 · 수익화 · 신규 출시 · 실행</span><span>${slides.length} SLIDES · ${appendices.length} DEEP DIVES</span></div>`;
+    if(s.kind==='cover') body=`<div class="cover-layout"><div><p class="cover-meta"><span class="status-dot"></span> 지원 포지션 · NAVER WEBTOON SENIOR PM</p><h1>${lines(s.title).replace('제품으로 답합니다.','<em>제품으로 답합니다.</em>')}</h1><p class="cover-description">${lines(s.subtitle)}</p>${profile.name?`<p class="profile-name">${esc(profile.name)}</p>`:''}<div class="cover-actions"><a class="button primary" href="#impact">주요 성과 살펴보기 ↗</a><a class="text-link" href="#economy">프로젝트 바로 보기 →</a></div><div class="cover-tags">ENGINEERING → PRODUCT → BUSINESS</div></div><div class="cover-art" aria-hidden="true"><div class="art-label">ASK WHY.<br>BUILD TOGETHER.</div><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-core">P<span>↗</span></div><span class="art-note">DEFINE. BUILD. LEARN.</span></div></div><div class="cover-bottom"><span>추천 · 수익화 · 신규 출시 · 실행</span><span>${slides.length} SLIDES · ${appendices.length} DEEP DIVES</span></div>`;
     else if(s.kind==='closing') body=`<div class="closing"><p class="eyebrow">LET’S BUILD WHAT’S NEXT</p><h1>${lines(s.title)}</h1><p class="cover-description">${lines(s.subtitle)}</p><div class="cover-actions">${contact()}<a class="text-link" href="#impact">대표 성과 다시 보기 ↗</a><a class="text-link" href="#appendix">상세 자료 보기 ↓</a></div><p class="note">${esc(s.note)}</p></div>`;
-    else body=`<header class="slide-heading"><div class="slide-heading-meta"><p class="eyebrow">${esc(s.group)} <span>${String(i+1).padStart(2,'0')} / ${slides.length}</span></p>${s.appendix?`<a class="appendix-link" href="#appendix-${s.appendix}">분석 기준과 상세 자료 <span>↗</span></a>`:''}</div><h1>${lines(s.title)}</h1>${s.lead?`<p class="lead">${esc(s.lead)}</p>`:''}<p class="subtitle">${esc(s.subtitle)}</p></header>${content(s)}${s.note?`<p class="note">${esc(s.note)}</p>`:''}`;
+    else body=`<header class="slide-heading"><div class="slide-heading-meta"><p class="eyebrow">${esc(s.group)} <span>${String(i+1).padStart(2,'0')} / ${slides.length}</span></p>${s.appendix?`<a class="appendix-link" href="#appendix-${s.appendix}">분석 기준과 상세 자료 <span>↗</span></a>`:''}</div><h1>${lines(s.title)}</h1>${s.lead?`<p class="lead">${esc(s.lead)}</p>`:''}<p class="subtitle">${esc(s.subtitle)}</p></header>${s.ownership?`<p class="ownership-line">${esc(s.ownership)}</p>`:''}${content(s)}${s.transfer?`<p class="transfer-line"><span>웹툰에서 이어갈 관점</span>${esc(s.transfer)}</p>`:''}${s.note?`<p class="note">${esc(s.note)}</p>`:''}`;
     const section=sectionStarts[s.id];
     const boundary=section?`<div class="section-boundary"><span>${section[0]}</span><strong>${section[1]}</strong><small class="axis-description"><span>${esc(section[3])}</span>${esc(section[2])}</small></div>`:'';
     const next=slides[i+1];
@@ -116,7 +135,7 @@
     return `<div class="heatmap" aria-label="관찰된 조합별 예상 최종 전환"><h4>조합별 예상 최종 전환 · 제공된 두 조합만 표시</h4><div class="heat-grid"><span>남성 / 여성</span><span>여성 2등급</span><span>여성 3등급</span><span>남성 0등급</span><strong class="heat-high">0.380%</strong><span>자료 없음</span><span>남성 4등급</span><span>자료 없음</span><strong class="heat-low">0.023%</strong></div><p class="note">약 16.5배 차이. 관찰 기반 기대치이며 보편 확률이 아닙니다. 미제공 조합은 보간하지 않았습니다.</p></div>`;
   }
   $('#appendix-nav').innerHTML=appendices.map(a=>`<a href="#appendix-${a.id}">${a.id.toUpperCase()} / ${esc(a.title)}</a>`).join('');
-  $('#appendix-content').innerHTML=appendices.map(a=>`<details id="appendix-${a.id}"><summary><span>${a.id.toUpperCase()}</span><h3>${esc(a.title)}</h3><small>상세 설명 · 자료 · 검증 항목</small></summary><div class="appendix-body"><div class="appendix-detail">${markdown(a.raw)}${a.id==='b'?heatmap():''}</div><aside><h4>확인 및 공개 승인</h4><ul>${a.checks.map(c=>`<li>${esc(c)} · 추후 검증</li>`).join('')}</ul><p class="note">내부 정책·수치·실제 자료는 공개 승인 확인 필요.</p><h4>제품 화면 & 원본 자료</h4><div class="gallery">${a.images.length?a.images.filter(i=>safePath(i.src)).map(i=>`<button class="image-thumb" data-image="${esc(i.src)}" data-alt="${esc(i.alt)}"><img src="${esc(i.src)}" alt="${esc(i.alt)}" loading="lazy"><span>${esc(i.alt)} ↗</span></button>`).join(''):`<div class="image-placeholder"><span>▧</span><strong>자료 추가 예정</strong><p>실제 화면과 원본 증빙이 제공되면<br>이곳에서 확대하여 볼 수 있습니다.</p></div>`}</div><ul class="material-list">${a.materials.map(m=>`<li>${esc(m)}<small>자료 추가 예정</small></li>`).join('')}</ul><a class="text-link" href="#${slides.find(s=>s.appendix===a.id)?.id||'career'}">해당 프로젝트로 돌아가기 ↑</a></aside></div></details>`).join('');
+  $('#appendix-content').innerHTML=appendices.map(a=>`<details id="appendix-${a.id}"><summary><span>${a.id.toUpperCase()}</span><h3>${esc(a.title)}</h3><small>상세 설명 · 자료 · 검증 항목</small></summary><div class="appendix-body"><div class="appendix-detail">${a.brief?.length?`<div class="case-brief"><p class="eyebrow">판단과 실행 요약</p>${a.brief.map(b=>`<article><h4>${esc(b.title)}</h4><p>${esc(b.body)}</p></article>`).join('')}</div>`:''}${markdown(a.raw)}${a.id==='b'?heatmap():''}</div><aside><h4>확인 및 공개 승인</h4><ul>${a.checks.map(c=>`<li>${esc(c)} · 추후 검증</li>`).join('')}</ul><p class="note">내부 정책·수치·실제 자료는 공개 승인 확인 필요.</p><h4>제품 화면 & 원본 자료</h4><div class="gallery">${a.images.length?a.images.filter(i=>safePath(i.src)).map(i=>`<button class="image-thumb" data-image="${esc(i.src)}" data-alt="${esc(i.alt)}"><img src="${esc(i.src)}" alt="${esc(i.alt)}" loading="lazy"><span>${esc(i.alt)} ↗</span></button>`).join(''):`<div class="image-placeholder"><span>▧</span><strong>자료 추가 예정</strong><p>실제 화면과 원본 증빙이 제공되면<br>이곳에서 확대하여 볼 수 있습니다.</p></div>`}</div><ul class="material-list">${a.materials.map(m=>`<li>${esc(m)}<small>자료 추가 예정</small></li>`).join('')}</ul><a class="text-link" href="#${slides.find(s=>s.appendix===a.id)?.id||'career'}">해당 프로젝트로 돌아가기 ↑</a></aside></div></details>`).join('');
   const groups=[['빠르게 보기',['cover','impact']],['01 / 재화 정책',['economy','economy-data']],['02 / 골드스푼 추천 배분',['matching','matching-next','matching-plan']],['03 / 신규 출시',['five','five-research','five-results']],['04 / 결제 개선',['payment','payment-architecture']],['다른 실행 경험',['hediple','hotel','career']],['일하는 방식과 마무리',['principles','closing']]];
   $('#toc-list').innerHTML=groups.map(([name,ids])=>`<details class="toc-group"><summary>${name}<small>${ids.length}장</small></summary>${ids.map(id=>{const i=slides.findIndex(s=>s.id===id);return `<a href="#${id}"><span>${String(i+1).padStart(2,'0')}</span><div>${esc(slides[i].title.replace(/\n/g,' '))}</div><span>↗</span></a>`;}).join('')}</details>`).join('');
   $('#toc-open').addEventListener('click',()=>$('#toc-dialog').showModal());

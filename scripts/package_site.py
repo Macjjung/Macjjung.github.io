@@ -5,6 +5,7 @@ root = Path(__file__).resolve().parent.parent
 out = root / 'dist'
 if out.exists():
     raise SystemExit('dist already exists. Review/remove it or choose a fresh checkout before packaging.')
+# Unreviewed originals live in assets/private-five; never include that folder.
 out.mkdir()
 for name in ['index.html', 'css/style.css', 'js/main.js', 'js/portfolio-data.js', 'assets/favicon.svg']:
     dest = out / name
