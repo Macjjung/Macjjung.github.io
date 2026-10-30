@@ -17,10 +17,10 @@
     }).join('')}</div>`;
   }
   const impact = () => `<div class="impact-grid">${[
-    ['약 6','배','전체 제품 성장','월매출 2,022만 → 1억 2,075만 원','2024.02 → 2026.07 · 여러 개선이 반영된 장기 성과','economy'],
-    ['11.3','% ↑','골드스푼 추천 배분','발신율 0.639% → 0.711%','상대 개선 · 후속 단계 전환율은 하락','matching-next'],
-    ['3.5','개월','신규 출시','첫 달 매출 2,500만 원','기존 모듈 활용 · 신규 타깃 정책 설계','five'],
-    ['50','% ↓','결제 비용','PG 수수료 6% → 3%','자체 OCR + PG 카드 등록·재결제','payment']
+    ['28.1','% ↓','사용자 보호와 수익화','사용자당 무료 지급량 감소','기존 잔액 보호 · 신규 보상의 사용 기한 조정','economy'],
+    ['11.3','% ↑','한정된 추천 기회 배분','관심 표현 0.639% → 0.711%','상대 개선 · 후속 단계 전환율은 하락','matching-next'],
+    ['3.5','개월','브랜드 유지와 시장 확장','첫 달 매출 2,500만 원','별도 서비스 선택 · 기존 모듈 재사용','five'],
+    ['50','% ↓','외부 제약 안에서 개선','결제 수수료 6% → 3%','결제사 비교 · 카드 입력 부담 완화','payment']
   ].map(([v,u,t,d,n,id],i)=>`<a class="impact-card" href="#${id}"><span class="micro">0${i+1} / ${t}</span><div class="impact-value">${v}<small>${u}</small></div><h3>${d}</h3><p>${n}</p><span class="card-arrow" aria-hidden="true">↗</span></a>`).join('')}</div>`;
   function contact() {
     return `${profile.name?`<p class="profile-name">${esc(profile.name)}</p>`:''}${profile.email&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(profile.email)?`<a class="button primary" href="mailto:${esc(profile.email)}">연락하기 ↗</a>`:''}${profile.resume&&/^(\.\/)?assets\/[\w./ -]+\.pdf$/i.test(profile.resume)&&!profile.resume.includes('..')?`<a class="text-link" href="${esc(profile.resume)}">이력서 PDF ↗</a>`:''}`;
@@ -30,11 +30,11 @@
       case 'impact': return impact();
       case 'bars': return charts(s);
       case 'policy': return `<p class="context-line">${esc(s.context)}</p>${cards(s.cards)}`;
-      case 'diagnosis': return `<div class="comparison-pairs">${s.comparisons.map(([l,v])=>`<div><span>${esc(l)} · 사용자당 호감 수신</span><strong>${v}</strong></div>`).join('')}</div>${cards(s.cards)}`;
-      case 'funnel': return `<div class="funnel-path"><span>노출</span><span>호감 발신</span><span>호감 수락</span><span>번호 오픈</span></div><div class="funnel-rates">${s.bars.map(b=>`<article><h3>${esc(b.label)}</h3><p class="rate-values">${b.before}% <span>→</span> <b>${b.after}%</b></p><strong class="${b.note.startsWith('−')?'negative':'positive'}">${esc(b.note)}</strong><p class="rate-denominator">분모: ${esc(b.label.split(' → ')[0])}</p></article>`).join('')}</div><p class="diagram-caption">단계별 전환율 비교 · 도형 크기는 사용자 수나 전환율을 나타내지 않습니다.</p>`;
+      case 'diagnosis': return `<div class="comparison-pairs">${s.comparisons.map(([l,v])=>`<div><span>${esc(l)} · 사용자당 관심 수신</span><strong>${v}</strong></div>`).join('')}</div>${cards(s.cards)}`;
+      case 'funnel': return `<div class="funnel-path"><span>추천 노출</span><span>관심 표현</span><span>상대 수락</span><span>연락처 확인</span></div><div class="funnel-rates">${s.bars.map(b=>`<article><h3>${esc(b.label)}</h3><p class="rate-values">${b.before}% <span>→</span> <b>${b.after}%</b></p><strong class="${b.note.startsWith('−')?'negative':'positive'}">${esc(b.note)}</strong><p class="rate-denominator">분모: ${esc(b.label.split(' → ')[0])}</p></article>`).join('')}</div><p class="diagram-caption">서비스 용어: 호감 발신=관심 표현, 번호 오픈=연락처 확인. 실제 만남 여부는 별도입니다.</p>`;
       case 'pairs': return `<div class="comparison-pairs">${s.pairs.map(([l,v])=>`<div><span>${esc(l)}</span><strong>${v}</strong><small>관찰 기반 예상 최종 전환</small></div>`).join('')}</div>${cards(s.cards)}`;
       case 'decision': return `<div class="decision-wrap"><table class="decision"><caption>기존 서비스 통합 vs 별도 서비스 출시</caption><thead><tr><th scope="col">판단 기준</th><th scope="col">A · 기존 서비스 통합</th><th scope="col">B · 별도 출시 <span>선택</span></th></tr></thead><tbody>${s.rows.map(r=>`<tr><th scope="row">${r[0]}</th><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}</tbody></table></div>`;
-      case 'branch': return `<div class="research-insight"><span>인터뷰에서 얻은 관점</span><p>호감이 형성된 뒤에는 자녀 유무가 반드시 결정적 장애물이 되지는 않는다는 의견.</p></div><div class="branch-start">자녀 유무 기본 비공개 → 실제 만남 권장</div><div class="branch-options"><article><span>만남 이후 확인</span><strong>무료</strong></article><article><span>사전 확인 선택</span><strong>소개티켓 1장</strong><p>차감 안내 후 사용자가 선택</p></article></div>`;
+      case 'branch': return `<div class="research-insight"><span>서로 다른 사용자 요구</span><p>관계를 경험한 뒤 판단하려는 의견과 자녀·양육 조건을 먼저 알고 싶다는 우려가 공존했습니다.</p></div><div class="branch-start">자녀 유무 기본 비공개 → 실제 만남 권장</div><div class="branch-options"><article><span>만남 이후 확인</span><strong>무료</strong></article><article><span>사전 확인 선택</span><strong>소개티켓 1장</strong><p>유료 이용권 차감을 안내한 뒤 선택</p></article></div>`;
       case 'metrics': return metrics(s.metrics)+cards(s.cards);
       case 'beforeafter': return `<div class="journey-compare"><article><h3>BEFORE · 매 결제</h3>${steps(s.before)}<p>카드정보를 반복 입력</p></article><article><h3>AFTER · 최초 등록 이후</h3>${steps(s.after)}<p>등록된 결제 키를 사용</p></article></div>`;
       case 'architecture': return metrics(s.metrics)+cards(s.cards)+`<div class="compact-flow"><span>최초 등록<br><b>촬영·OCR → PG 등록 → 결제 키</b></span><span>반복 결제<br><b>앱 내 요청 → 키 기반 PG 승인</b></span></div>`;
@@ -46,9 +46,9 @@
   }
   const sectionStarts = {
     impact: ['OVERVIEW', '대표 성과', '추천·수익화·신규 출시의 성과와 판단을 보여줍니다.', 'Growth · 제품 성장'],
-    economy: ['PROJECT 01', '더멤버스 · 재화 정책', '사용자 신뢰를 지키며 재화 경제를 조정하는 역량', 'Monetization · 수익화'],
-    matching: ['PROJECT 02', '골드스푼 · 소개 로직', '노출부터 후속 전환까지 분석하는 역량', 'Recommendation · 추천'],
-    five: ['PROJECT 03', '파이브 · 신규 출시', '새로운 시장 기회를 제품 출시로 연결하는 역량', '0→1 · 신규 제품'],
+    economy: ['PROJECT 01', '더멤버스 · 재화 정책', '기존 혜택과 수익 구조를 함께 고려하는 판단', 'Monetization · 수익화'],
+    matching: ['PROJECT 02', '골드스푼 · 추천 배분', '노출부터 후속 전환까지 분석하는 역량', 'Recommendation · 추천'],
+    five: ['PROJECT 03', '파이브 · 신규 출시', '기존 브랜드를 지키며 새로운 고객을 확보하는 판단', '0→1 · 신규 제품'],
     payment: ['PROJECT 04', 'PG·OCR · 결제 개선', '반복 결제의 마찰과 사업 비용을 줄이는 역량', 'Conversion & Payment · 결제'],
     hediple: ['PROJECT 05', '헤디플 · 개인 서비스', '문제 발견부터 출시·운영까지 책임지는 역량', 'Ownership · 제품 오너십'],
     hotel: ['PROJECT 06', '호텔오더 · B2B2C', '디지털 제품을 현장 운영과 연결하는 역량', 'Execution · 실행'],
@@ -57,7 +57,7 @@
   };
   function article(s,i) {
     let body;
-    if(s.kind==='cover') body=`<div class="cover-layout"><div><p class="cover-meta"><span class="status-dot"></span> 지원 포지션 · NAVER WEBTOON SENIOR PM</p><h1>${lines(s.title).replace('제품으로 답합니다.','<em>제품으로 답합니다.</em>')}</h1><p class="cover-description">${lines(s.subtitle)}</p>${profile.name?`<p class="profile-name">${esc(profile.name)}</p>`:''}<div class="cover-actions"><a class="button primary" href="#impact">주요 성과 살펴보기 ↗</a><a class="text-link" href="#economy">프로젝트 바로 보기 →</a></div><div class="cover-tags">ENGINEERING → PRODUCT → BUSINESS</div></div><div class="cover-art" aria-hidden="true"><div class="art-label">FROM QUESTION<br>TO IMPACT.</div><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-core">P<span>↗</span></div><span class="art-note">DEFINE. BUILD. LEARN.</span></div></div><div class="cover-bottom"><span>추천 · 수익화 · 신규 출시 · 실행</span><span>${slides.length} SLIDES · ${appendices.length} DEEP DIVES</span></div>`;
+    if(s.kind==='cover') body=`<div class="cover-layout"><div><p class="cover-meta"><span class="status-dot"></span> 지원 포지션 · NAVER WEBTOON SENIOR PM</p><h1>${lines(s.title).replace('함께 판단하고 실행합니다.','<em>함께 판단하고 실행합니다.</em>')}</h1><p class="cover-description">${lines(s.subtitle)}</p>${profile.name?`<p class="profile-name">${esc(profile.name)}</p>`:''}<div class="cover-actions"><a class="button primary" href="#impact">주요 성과 살펴보기 ↗</a><a class="text-link" href="#economy">프로젝트 바로 보기 →</a></div><div class="cover-tags">ENGINEERING → PRODUCT → BUSINESS</div></div><div class="cover-art" aria-hidden="true"><div class="art-label">FROM QUESTION<br>TO IMPACT.</div><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-core">P<span>↗</span></div><span class="art-note">DEFINE. BUILD. LEARN.</span></div></div><div class="cover-bottom"><span>추천 · 수익화 · 신규 출시 · 실행</span><span>${slides.length} SLIDES · ${appendices.length} DEEP DIVES</span></div>`;
     else if(s.kind==='closing') body=`<div class="closing"><p class="eyebrow">LET’S BUILD WHAT’S NEXT</p><h1>${lines(s.title)}</h1><p class="cover-description">${lines(s.subtitle)}</p><div class="cover-actions">${contact()}<a class="text-link" href="#impact">대표 성과 다시 보기 ↗</a><a class="text-link" href="#appendix">상세 자료 보기 ↓</a></div><p class="note">${esc(s.note)}</p></div>`;
     else body=`<header class="slide-heading"><div class="slide-heading-meta"><p class="eyebrow">${esc(s.group)} <span>${String(i+1).padStart(2,'0')} / ${slides.length}</span></p>${s.appendix?`<a class="appendix-link" href="#appendix-${s.appendix}">분석 기준과 상세 자료 <span>↗</span></a>`:''}</div><h1>${lines(s.title)}</h1>${s.lead?`<p class="lead">${esc(s.lead)}</p>`:''}<p class="subtitle">${esc(s.subtitle)}</p></header>${content(s)}${s.note?`<p class="note">${esc(s.note)}</p>`:''}`;
     const section=sectionStarts[s.id];
