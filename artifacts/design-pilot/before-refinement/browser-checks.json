@@ -1,0 +1,49 @@
+{
+  "navigationFailures": [],
+  "fonts": [
+    {
+      "class": "pilot-eyebrow",
+      "size": "19px",
+      "weight": "400"
+    },
+    {
+      "class": "pilot-h1",
+      "size": "52px",
+      "weight": "700"
+    },
+    {
+      "class": "",
+      "size": "32px",
+      "weight": "600"
+    },
+    {
+      "class": "pilot-caption",
+      "size": "19px",
+      "weight": "400"
+    },
+    {
+      "class": "pilot-caption pilot-period",
+      "size": "19px",
+      "weight": "400"
+    },
+    {
+      "class": "pilot-caption",
+      "size": "19px",
+      "weight": "400"
+    },
+    {
+      "class": "pilot-kpi",
+      "size": "80px",
+      "weight": "700"
+    },
+    {
+      "class": "pilot-caption pilot-caveat",
+      "size": "19px",
+      "weight": "400"
+    }
+  ],
+  "barWidths": [
+    765,
+    851
+  ]
+}

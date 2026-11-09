@@ -72,7 +72,53 @@
     career: ['EXPERIENCE', '경력과 기술 기반', '기술 이해를 제품 판단과 협업으로 연결하는 역량', 'Technical Leadership · 기술 협업'],
     principles: ['CLOSING', '일하는 방식', '사례에서 반복되는 의사결정 기준을 보여줍니다.', 'Product Thinking · 제품 판단']
   };
+  // Shared canvas, header, title area and footer for the three design-system pilots.
+  function pilotFrame(s, i, body) {
+    const cover = s.pilot === 'cover';
+    return `<article id="${s.id}" class="slide pilot-slide pilot-${s.pilot}" data-layout="${s.layout}" aria-label="${i+1} / ${slides.length}"><div class="pilot-canvas">
+      <header class="pilot-header"><span>PRODUCT, WITH PURPOSE.</span><span>LEAD PRODUCT MANAGER / COUPANG SHOPPING</span></header>
+      ${cover ? '' : `<div class="pilot-title-area"><p class="pilot-eyebrow">${esc(s.group)}</p><h1 class="pilot-h1">${lines(s.title)}</h1><p class="pilot-subtitle">${esc(s.subtitle)}</p></div>`}
+      ${body}<footer class="pilot-footer"><span>INDEPENDENT PRODUCT PORTFOLIO · ${esc(s.group)}</span><span>${String(i+1).padStart(2,'0')} / ${slides.length}</span></footer>
+    </div></article>`;
+  }
+  function pilotArticle(s,i) {
+    let body;
+    if(s.pilot === 'cover') body = `<div class="pilot-cover-title"><p class="pilot-caption">PRODUCT STRATEGY / CUSTOMER BEHAVIOR / BUSINESS GROWTH</p><h1>${lines(s.title)}</h1><p>${esc(s.subtitle)}</p></div><aside class="pilot-cover-index"><p class="pilot-caption">SELECTED CASE STUDIES / 01—03</p><div class="pilot-index-item"><span>01</span><h3>구매 이벤트 개선</h3><p>구매·소비 데이터 기반 보상 경험 재설계</p></div><a href="#matching-next"><span>02</span><h3>소개 로직 개편</h3><p>반응 데이터 기반 카드 배정 최적화</p></a><a href="#members-growth"><span>03</span><h3>더멤버스 성장 전략</h3><p>핵심 경험과 구매 가치 재설계</p></a></aside><p class="pilot-cover-note">고객의 행동에서 출발해<br>제품의 판단과 사업의 결과까지.</p><div class="pilot-color-strip" aria-label="Brown, Red, Yellow, Green, Blue"><i></i><i></i><i></i><i></i><i></i></div>`;
+    else if(s.pilot === 'matching') body = `<div class="pilot-main pilot-analysis">
+      <figure class="pilot-rate-chart"><figcaption><h2>노출 대비 호감 전송률</h2><span class="pilot-caption">분모: 카드 노출 수 · 동일 척도</span></figcaption>
+        <div class="pilot-axis"><span>0%</span><span>0.4%</span><span>0.8%</span></div>
+        ${[["개편 전", "0.639",79.875],["개편 후","0.711",88.875]].map(([label,value,width])=>`<div class="pilot-rate-row"><span>${label}</span><strong>${value}%</strong><div class="pilot-bar-track"><div style="width:${width}%" class="pilot-bar ${label==='개편 후'?'is-after':''}"></div></div></div>`).join('')}
+        <div class="pilot-sample"><p>카드 노출 수　14,948,917 → 15,329,663</p><p>호감 전송 수　95,532 → 108,973</p></div>
+      </figure>
+      <aside class="pilot-analysis-aside"><p class="pilot-caption">핵심 지표 / 노출당 호감 전송 효율</p><strong class="pilot-kpi">+11.2%</strong><p>상대 증가</p><p class="pilot-reading">노출 수 +2.5%<br>호감 전송 수 +14.1%</p></aside>
+      <div class="pilot-tradeoffs"><h3>후속 전환은 하락</h3><div><p>호감 수락률</p><p>25.9% → 24.9% <span>(−1.0%p)</span></p></div><div><p>수락 대비 번호 오픈율</p><p>77.0% → 75.3% <span>(−1.7%p)</span></p></div></div>
+      <div class="pilot-caption pilot-caveat"><p>전 2026.07.08–08.26 / 후 2026.08.27–10.15 · 각 50일</p><p>전후 관찰 결과이며 개편만의 인과효과나 추천 품질 전체의 개선으로 단정하지 않습니다.</p></div>
+    </div>`;
+    else body = `<div class="pilot-main pilot-growth">
+      <div class="pilot-growth-equation">
+        <section class="pilot-growth-factor"><p class="pilot-caption">고객 규모</p><h2>MAU</h2><strong class="pilot-kpi">약 2.3배</strong><p>2,670명 → 6,120명</p></section>
+        <span class="pilot-equation-symbol" aria-hidden="true">×</span>
+        <section class="pilot-growth-factor"><p class="pilot-caption">고객당 매출</p><h2>ARPU</h2><strong class="pilot-kpi">약 2.6배</strong><p>7,562원 → 19,730원</p></section>
+        <span class="pilot-equation-symbol" aria-hidden="true">≈</span>
+        <section class="pilot-growth-outcome"><p class="pilot-caption">사업 전체 성과</p><h2>월 결제액</h2><strong class="pilot-kpi">약 6배</strong><p>20,190,500원 → 120,749,800원</p></section>
+      </div>
+      <div class="pilot-growth-strategy"><div><h3>초기 수익화 개선</h3><p>무료재화 재설계</p></div><span aria-hidden="true">→</span><div><h3>고객 가치와 구매 이유 강화</h3><p>모바일 결정사 포지셔닝 · ‘더 블랙’ 출시</p></div><p class="pilot-growth-profit">흑자전환 달성</p></div>
+      <div class="pilot-caption pilot-caveat"><p>담당 기간 비교: 2024.02 → 2026.07 · 월 결제액 = MAU × ARPU (배수는 반올림)</p><p>여러 제품·사업·마케팅 활동의 결과일 수 있으며, 특정 정책 하나의 직접 효과로 귀속하지 않습니다.</p></div>
+    </div>`;
+    return pilotFrame(s,i,body);
+  }
+  function fitPilotCanvases() {
+    document.querySelectorAll('.pilot-slide').forEach(slide => {
+      const host = document.querySelector('#stage');
+      const width = Math.min(1920, host.clientWidth, reading ? Infinity : host.clientHeight * 1920 / 1080);
+      slide.style.width = `${width}px`;
+      slide.style.setProperty('--pilot-scale', width / 1920);
+      slide.style.height = `${width * 1080 / 1920}px`;
+    });
+  }
+  new ResizeObserver(fitPilotCanvases).observe(document.querySelector('#stage'));
   function article(s,i) {
+    if (s.pilot) return pilotArticle(s,i);
     let body;
     if(s.kind==='cover') body=`<div class="cover-layout"><div><p class="cover-meta"><span class="status-dot"></span> 지원 포지션 · NAVER WEBTOON SENIOR PM</p><h1>${lines(s.title).replace('제품으로 답합니다.','<em>제품으로 답합니다.</em>')}</h1><p class="cover-description">${lines(s.subtitle)}</p>${profile.name?`<p class="profile-name">${esc(profile.name)}</p>`:''}<div class="cover-actions"><a class="button primary" href="#impact">주요 성과 살펴보기 ↗</a><a class="text-link" href="#economy">프로젝트 바로 보기 →</a></div><div class="cover-tags">ENGINEERING → PRODUCT STRATEGY & GROWTH</div></div><div class="selected-impact"><p class="eyebrow">SELECTED IMPACT</p><div><strong>약 6배</strong><span>더멤버스 월매출 성장 · 흑자 전환</span></div><div><strong>−28.1%</strong><span>더멤버스 무료 재화 지급량</span></div><div><strong>3.5개월</strong><span>파이브 신규 서비스 출시</span></div><div><strong>+11.3%</strong><span>골드스푼 호감 발신율 · 상대 개선</span></div><p class="note">서로 다른 제품·프로젝트의 성과입니다.</p></div></div><div class="cover-bottom"><span>문제 발견 · 출시와 검증 · 기획 · 리더십</span><span>${slides.length} SLIDES · ${appendices.length} DEEP DIVES</span></div>`;
     else if(s.kind==='closing') body=`<div class="closing"><p class="eyebrow">LET’S BUILD WHAT’S NEXT</p><h1>${lines(s.title)}</h1><p class="cover-description">${lines(s.subtitle)}</p><div class="cover-actions">${contact()}<a class="text-link" href="#impact">대표 성과 다시 보기 ↗</a><a class="text-link" href="#appendix">상세 자료 보기 ↓</a></div><p class="note">${esc(s.note)}</p></div>`;
@@ -97,10 +143,11 @@
   }
   function render() {
     document.body.classList.toggle('reading',reading);
+    document.querySelector('#presentation').classList.toggle('pilot-active', !reading && !!slides[current].pilot);
     $('#mode-toggle').textContent=reading?'슬라이드 보기':'이어 읽기';
     $('#mode-toggle').setAttribute('aria-pressed',String(reading));
     $('#slide-content').innerHTML=reading?slides.map(article).join(''):article(slides[current],current);
-    $('#slide-content').scrollTop=0;syncNav();
+    $('#slide-content').scrollTop=0;syncNav();fitPilotCanvases();
   }
   function route() {
     let hash=location.hash.slice(1);
@@ -134,7 +181,7 @@
   }
   $('#appendix-nav').innerHTML=appendices.map(a=>`<a href="#appendix-${a.id}">${a.id.toUpperCase()} / ${esc(a.title)}</a>`).join('');
   $('#appendix-content').innerHTML=appendices.map(a=>`<details id="appendix-${a.id}"><summary><span>${a.id.toUpperCase()}</span><h3>${esc(a.title)}</h3><small>상세 설명 · 자료 · 검증 항목</small></summary><div class="appendix-body"><div class="appendix-detail">${a.brief?.length?`<div class="case-brief"><p class="eyebrow">판단과 실행 요약</p>${a.brief.map(b=>`<article><h4>${esc(b.title)}</h4><p>${esc(b.body)}</p></article>`).join('')}</div>`:''}${markdown(a.raw)}${a.id==='b'?heatmap():''}</div><aside><h4>확인 및 공개 승인</h4><ul>${a.checks.map(c=>`<li>${esc(c)} · 추후 검증</li>`).join('')}</ul><p class="note">내부 정책·수치·실제 자료는 공개 승인 확인 필요.</p><h4>제품 화면 & 원본 자료</h4><div class="gallery">${a.images.length?a.images.filter(i=>safePath(i.src)).map(i=>`<button class="image-thumb" data-image="${esc(i.src)}" data-alt="${esc(i.alt)}"><img src="${esc(i.src)}" alt="${esc(i.alt)}" loading="lazy"><span>${esc(i.alt)} ↗</span></button>`).join(''):`<div class="image-placeholder"><span>▧</span><strong>자료 추가 예정</strong><p>실제 화면과 원본 증빙이 제공되면<br>이곳에서 확대하여 볼 수 있습니다.</p></div>`}</div><ul class="material-list">${a.materials.map(m=>`<li>${esc(m)}<small>자료 추가 예정</small></li>`).join('')}</ul><a class="text-link" href="#${slides.find(s=>s.appendix===a.id)?.id||'career'}">해당 프로젝트로 돌아가기 ↑</a></aside></div></details>`).join('');
-  const groups = [['시작하기',['cover','impact']],['01 / 문제 발견과 판단',['economy','economy-data']],['02 / 출시와 검증',['five','five-results']],['03 / 정책 기획과 후속 설계',['matching','matching-next']],['04 / 리더십 · 준비 중',['leadership','leadership-results']],['마무리',['closing']]];
+  const groups = [['시작하기',['cover','impact']],['01 / 문제 발견과 판단',['economy','economy-data','members-growth']],['02 / 출시와 검증',['five','five-results']],['03 / 정책 기획과 후속 설계',['matching','matching-next']],['04 / 리더십 · 준비 중',['leadership','leadership-results']],['마무리',['closing']]];
   $('#toc-list').innerHTML=groups.map(([name,ids])=>[name,ids.filter(id=>slides.some(s=>s.id===id))]).filter(([,ids])=>ids.length).map(([name,ids])=>`<details class="toc-group"><summary>${name}<small>${ids.length}장</small></summary>${ids.map(id=>{const i=slides.findIndex(s=>s.id===id);return `<a href="#${id}"><span>${String(i+1).padStart(2,'0')}</span><div>${esc(slides[i].title.replace(/\n/g,' '))}</div><span>↗</span></a>`;}).join('')}</details>`).join('');
   $('#toc-open').addEventListener('click',()=>$('#toc-dialog').showModal());
   document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>b.closest('dialog').close()));

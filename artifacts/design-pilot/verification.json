@@ -1,0 +1,146 @@
+[
+  {
+    "id": "cover",
+    "canvas": [
+      1920,
+      1080
+    ],
+    "scale": 1,
+    "areas": [
+      {
+        "class": "pilot-header",
+        "x": 96,
+        "y": 64,
+        "font": "18px",
+        "weight": "500"
+      },
+      {
+        "class": "pilot-footer",
+        "x": 96,
+        "y": 1004,
+        "font": "18px",
+        "weight": "500"
+      }
+    ],
+    "overflow": [],
+    "text": "PRODUCT, WITH PURPOSE.\nLEAD PRODUCT MANAGER / COUPANG SHOPPING\n\nPRODUCT STRATEGY / CUSTOMER BEHAVIOR / BUSINESS GROWTH\n\n고객 행동을 읽고,\n사업의 성장을 설계합니다.\n\n비즈니스 문제를 구조화하고 고객 행동과 수익 구조를 연결하는 Product Leader\n\nSELECTED CASE STUDIES / 01—03\n\n01\n구매 이벤트 개선\n\n구매·소비 데이터 기반 보상 경험 재설계\n\n02\n소개 로직 개편\n\n반응 데이터 기반 카드 배정 최적화\n\n03\n더멤버스 성장 전략\n\n핵심 경험과 구매 가치 재설계\n\n고객의 행동에서 출발해\n제품의 판단과 사업의 결과까지.\n\nINDEPENDENT PRODUCT PORTFOLIO · LEAD PRODUCT MANAGER · PORTFOLIO\n01 / 12"
+  },
+  {
+    "id": "matching-next",
+    "canvas": [
+      1920,
+      1080
+    ],
+    "scale": 1,
+    "areas": [
+      {
+        "class": "pilot-header",
+        "x": 96,
+        "y": 64,
+        "font": "18px",
+        "weight": "500"
+      },
+      {
+        "class": "pilot-h1",
+        "x": 96,
+        "y": 174,
+        "font": "52px",
+        "weight": "700"
+      },
+      {
+        "class": "pilot-subtitle",
+        "x": 96,
+        "y": 322,
+        "font": "25px",
+        "weight": "400"
+      },
+      {
+        "class": "pilot-main pilot-analysis",
+        "x": 96,
+        "y": 400,
+        "font": "25px",
+        "weight": "400"
+      },
+      {
+        "class": "pilot-footer",
+        "x": 96,
+        "y": 1004,
+        "font": "18px",
+        "weight": "500"
+      }
+    ],
+    "overflow": [],
+    "text": "PRODUCT, WITH PURPOSE.\nLEAD PRODUCT MANAGER / COUPANG SHOPPING\n\nPROJECT 02 · 소개 로직 개편\n\n노출 기회의 재배분으로\n호감 전송 효율 +11.2%\n\n실제 반응 데이터를 기존 유사도 기반 로직에 반영해 카드 배정 비율을 조정했습니다.\n\n노출 대비 호감 전송률\n분모: 카드 노출 수 · 동일 척도\n0%\n0.4%\n0.8%\n개편 전\n0.639%\n개편 후\n0.711%\n\n카드 노출 수　14,948,917 → 15,329,663\n\n호감 전송 수　95,532 → 108,973\n\n핵심 지표 / 노출당 호감 전송 효율\n\n+11.2%\n\n상대 증가\n\n노출 수 +2.5%\n호감 전송 수 +14.1%\n\n후속 전환은 하락\n\n호감 수락률\n\n25.9% → 24.9% (−1.0%p)\n\n수락 대비 번호 오픈율\n\n77.0% → 75.3% (−1.7%p)\n\n전 2026.07.08–08.26 / 후 2026.08.27–10.15 · 각 50일\n\n전후 관찰 결과이며 개편만의 인과효과나 추천 품질 전체의 개선으로 단정하지 않습니다.\n\nINDEPENDENT PRODUCT PORTFOLIO · PROJECT 02 · 소개 로직 개편\n09 / 12"
+  },
+  {
+    "id": "members-growth",
+    "canvas": [
+      1920,
+      1080
+    ],
+    "scale": 1,
+    "areas": [
+      {
+        "class": "pilot-header",
+        "x": 96,
+        "y": 64,
+        "font": "18px",
+        "weight": "500"
+      },
+      {
+        "class": "pilot-h1",
+        "x": 96,
+        "y": 174,
+        "font": "52px",
+        "weight": "700"
+      },
+      {
+        "class": "pilot-subtitle",
+        "x": 96,
+        "y": 322,
+        "font": "25px",
+        "weight": "400"
+      },
+      {
+        "class": "pilot-main pilot-growth",
+        "x": 96,
+        "y": 400,
+        "font": "25px",
+        "weight": "400"
+      },
+      {
+        "class": "pilot-footer",
+        "x": 96,
+        "y": 1004,
+        "font": "18px",
+        "weight": "500"
+      }
+    ],
+    "overflow": [],
+    "text": "PRODUCT, WITH PURPOSE.\nLEAD PRODUCT MANAGER / COUPANG SHOPPING\n\nPROJECT 03 · 더멤버스 성장 전략\n\n고객 규모와 고객당 매출이 함께 성장하며\n월 결제액 약 6배\n\n초기 수익화 개선 → 고객 가치와 구매 이유 강화 · 담당 기간 중 흑자전환 달성\n\n고객 규모\n\nMAU\n약 2.3배\n\n2,670명 → 6,120명\n\n×\n\n고객당 매출\n\nARPU\n약 2.6배\n\n7,562원 → 19,730원\n\n≈\n\n사업 전체 성과\n\n월 결제액\n약 6배\n\n20,190,500원 → 120,749,800원\n\n초기 수익화 개선\n\n무료재화 재설계\n\n→\n고객 가치와 구매 이유 강화\n\n모바일 결정사 포지셔닝 · ‘더 블랙’ 출시\n\n흑자전환 달성\n\n담당 기간 비교: 2024.02 → 2026.07 · 월 결제액 = MAU × ARPU (배수는 반올림)\n\n여러 제품·사업·마케팅 활동의 결과일 수 있으며, 특정 정책 하나의 직접 효과로 귀속하지 않습니다.\n\nINDEPENDENT PRODUCT PORTFOLIO · PROJECT 03 · 더멤버스 성장 전략\n05 / 12"
+  },
+  {
+    "viewport": "1366x768",
+    "rect": {
+      "x": 104.328125,
+      "y": 60,
+      "width": 1157.3333740234375,
+      "height": 651,
+      "top": 60,
+      "right": 1261.6614990234375,
+      "bottom": 711,
+      "left": 104.328125
+    },
+    "stage": {
+      "x": 0,
+      "y": 60,
+      "width": 1366,
+      "height": 651,
+      "top": 60,
+      "right": 1366,
+      "bottom": 711,
+      "left": 0
+    }
+  },
+  "[{\"id\":\"cover\",\"width\":390,\"height\":219,\"scale\":\"0.203125\"},{\"id\":\"members-growth\",\"width\":390,\"height\":219,\"scale\":\"0.203125\"},{\"id\":\"matching-next\",\"width\":390,\"height\":219,\"scale\":\"0.203125\"}]"
+]

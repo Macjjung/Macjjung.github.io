@@ -1,0 +1,111 @@
+{
+  "slides": [
+    {
+      "id": "cover",
+      "canvas": [
+        1920,
+        1080
+      ],
+      "scale": 0.6027777989705404,
+      "areas": [
+        {
+          "class": "pilot-header",
+          "x": 96,
+          "y": 64
+        },
+        {
+          "class": "pilot-footer",
+          "x": 96,
+          "y": 1004
+        }
+      ],
+      "stageFit": true,
+      "overflow": []
+    },
+    {
+      "id": "matching-next",
+      "canvas": [
+        1920,
+        1080
+      ],
+      "scale": 0.6027777989705404,
+      "areas": [
+        {
+          "class": "pilot-header",
+          "x": 96,
+          "y": 64
+        },
+        {
+          "class": "pilot-eyebrow",
+          "x": 96,
+          "y": 132
+        },
+        {
+          "class": "pilot-h1",
+          "x": 96,
+          "y": 174
+        },
+        {
+          "class": "pilot-subtitle",
+          "x": 96,
+          "y": 322
+        },
+        {
+          "class": "pilot-main pilot-analysis",
+          "x": 96,
+          "y": 400
+        },
+        {
+          "class": "pilot-footer",
+          "x": 96,
+          "y": 1004
+        }
+      ],
+      "stageFit": true,
+      "overflow": []
+    },
+    {
+      "id": "members-growth",
+      "canvas": [
+        1920,
+        1080
+      ],
+      "scale": 0.6027777989705404,
+      "areas": [
+        {
+          "class": "pilot-header",
+          "x": 96,
+          "y": 64
+        },
+        {
+          "class": "pilot-eyebrow",
+          "x": 96,
+          "y": 132
+        },
+        {
+          "class": "pilot-h1",
+          "x": 96,
+          "y": 174
+        },
+        {
+          "class": "pilot-subtitle",
+          "x": 96,
+          "y": 322
+        },
+        {
+          "class": "pilot-main pilot-growth",
+          "x": 96,
+          "y": 400
+        },
+        {
+          "class": "pilot-footer",
+          "x": 96,
+          "y": 1004
+        }
+      ],
+      "stageFit": true,
+      "overflow": []
+    }
+  ],
+  "navigationFailures": []
+}

@@ -2,12 +2,14 @@ window.PORTFOLIO = {
   "slides": [
     {
       "id": "cover",
-      "group": "INTRO",
-      "title": "사용자 문제를 사업 성과로\n연결하는 Product Manager",
+      "group": "LEAD PRODUCT MANAGER · PORTFOLIO",
+      "title": "고객 행동을 읽고,\n사업의 성장을 설계합니다.",
       "lead": "",
-      "subtitle": "From Engineering to Product Strategy & Growth\n개발부터 신규 서비스 출시, 제품 성장과 수익화, 데이터 기반 추천 정책까지.\n현재 트리플콤마 CPO.",
+      "subtitle": "비즈니스 문제를 구조화하고 고객 행동과 수익 구조를 연결하는 Product Leader",
       "kind": "cover",
-      "cards": []
+      "cards": [],
+      "pilot": "cover",
+      "layout": "L01"
     },
     {
       "id": "impact",
@@ -91,6 +93,15 @@ window.PORTFOLIO = {
       "appendix": "a",
       "placeholder": "재화 유효기간 · 무료 보상 지급 내역 또는 정책 안내 화면",
       "note": "전후 관찰 결과이며 두 비율은 합산 구성비가 아닙니다. 목표 KPI·활동/이탈 지표·부작용 대응·로드맵은 추가 확인이 필요합니다. 월매출 약 6배 성장은 제품의 장기 성과입니다."
+    },
+    {
+      "id": "members-growth",
+      "pilot": "growth",
+      "layout": "L04",
+      "kind": "pilot",
+      "group": "PROJECT 03 · 더멤버스 성장 전략",
+      "title": "고객 규모와 고객당 매출이 함께 성장하며\n월 결제액 약 6배",
+      "subtitle": "초기 수익화 개선 → 고객 가치와 구매 이유 강화 · 담당 기간 중 흑자전환 달성"
     },
     {
       "id": "five",
@@ -192,40 +203,12 @@ window.PORTFOLIO = {
     },
     {
       "id": "matching-next",
-      "group": "COMPETENCY 03 · 적용 결과와 후속 설계",
-      "title": "호감 발신 효율을 개선하고,\n최종 전환을 고려한 후속 기획으로 연결했습니다.",
-      "lead": "",
-      "subtitle": "노출 14,948,917 → 15,329,663 · 호감 발신 95,532 → 108,973 (+14.1%)",
-      "kind": "funnel",
-      "cards": [
-        {
-          "title": "후속 개인화 · 설계 단계",
-          "body": "등급 조합별 예상 번호 오픈: 남성 0→여성 2등급 0.380%, 남성 4→여성 3등급 0.023%. 최종 전환 기대값을 고려하는 방향으로 설계. 배포 완료 아님."
-        }
-      ],
-      "bars": [
-        {
-          "label": "노출 → 호감 발신",
-          "before": 0.639,
-          "after": 0.711,
-          "note": "+11.3% 상대"
-        },
-        {
-          "label": "호감 발신 → 호감 수락",
-          "before": 25.9,
-          "after": 24.9,
-          "note": "−1.0%p"
-        },
-        {
-          "label": "호감 수락 → 번호 오픈",
-          "before": 77.0,
-          "after": 75.3,
-          "note": "−1.7%p"
-        }
-      ],
-      "appendix": "b",
-      "placeholder": "소개 로직 정책 문서 · 등급 조건표 · 요구사항 및 QA 명세",
-      "note": "비교 구간에 배포 전 하루가 포함됩니다. 정확한 측정 기간·대조군·외부 변수는 추가 확인이 필요합니다. 후속 수락·번호 오픈율은 하락했으며 최종 만남 전환 개선으로 단정할 수 없습니다."
+      "pilot": "matching",
+      "layout": "L06",
+      "kind": "pilot",
+      "group": "PROJECT 02 · 소개 로직 개편",
+      "title": "노출 기회의 재배분으로\n호감 전송 효율 +11.2%",
+      "subtitle": "실제 반응 데이터를 기존 유사도 기반 로직에 반영해 카드 배정 비율을 조정했습니다."
     },
     {
       "id": "leadership",

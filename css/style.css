@@ -126,3 +126,44 @@
 .selected-impact{padding:20px 0 20px 28px;border-left:1px solid #333}.selected-impact>div{padding:12px 0;border-bottom:1px solid #262626}.selected-impact strong{display:block;font-size:36px;color:var(--green);line-height:1.2}.selected-impact span{font-size:12px;color:#bbb}.selected-impact .eyebrow{color:var(--green)}
 .evidence-slot{height:108px;border:1px dashed #666;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;margin-top:18px;padding:14px;color:var(--muted);background:rgba(128,128,128,.04)}.evidence-slot span{font:11px var(--mono)}.evidence-slot p{font-size:12px;margin-top:5px}.type-cards .cards.count-4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.slide .flow{margin-top:16px}.type-diagnosis .comparison-pairs{margin-bottom:12px}
 @media(max-width:700px){.selected-impact{border-left:0;border-top:1px solid #333;padding:20px 0;display:grid;grid-template-columns:1fr 1fr;gap:12px}.selected-impact>p{grid-column:1/-1}.selected-impact strong{font-size:30px}.type-cards .cards.count-4{grid-template-columns:1fr}.evidence-slot{height:128px}.cover-layout{gap:24px}}
+
+/* Design-system pilot: scoped to L01/L04/L06; other slides retain their styling. */
+#slide-content .pilot-slide{--pilot-ink:#172033;--pilot-muted:#526071;--pilot-line:#E2E6EC;--pilot-blue:#3DACDC;--pilot-red:#E94B22;position:relative;display:block;width:100%;max-width:1920px;min-height:0;padding:0;margin:0 auto;overflow:hidden;background:#fff;color:var(--pilot-ink);animation:none;border:0;scroll-margin-top:76px}
+.pilot-slide .pilot-canvas{position:relative;width:1920px;height:1080px;transform:scale(var(--pilot-scale,1));transform-origin:top left;background:#fff;font:400 25px/1.5 var(--sans);letter-spacing:0;overflow:hidden}
+.pilot-canvas *{box-sizing:border-box}.pilot-canvas p{line-height:1.5}.pilot-canvas h1,.pilot-canvas h2,.pilot-canvas h3{letter-spacing:-.035em;margin:0}.pilot-canvas h2{font-size:32px;font-weight:600;line-height:1.35}.pilot-canvas h3{font-size:26px;font-weight:600;line-height:1.4}
+.pilot-header,.pilot-footer{position:absolute;left:96px;width:1728px;display:flex;justify-content:space-between;font-size:18px;font-weight:500;line-height:1.4;letter-spacing:.04em;color:var(--pilot-muted)}.pilot-header{top:64px}.pilot-footer{top:1004px}.pilot-footer:before{content:'';position:absolute;top:-22px;left:0;right:0;height:1px;background:var(--pilot-line)}
+.pilot-title-area .pilot-eyebrow{position:absolute;left:96px;top:132px;font-size:19px;line-height:1.4;color:var(--pilot-muted)}
+.pilot-title-area .pilot-h1{position:absolute;left:96px;top:174px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;white-space:normal}
+.pilot-title-area .pilot-subtitle{position:absolute;left:96px;top:322px;width:1728px;margin:0;color:var(--pilot-muted);font-size:25px;font-weight:400;line-height:1.5}
+.pilot-main{position:absolute;left:96px;top:400px;width:1728px;height:560px;display:grid;grid-template-columns:repeat(12,122px);gap:0 24px}
+.pilot-canvas .pilot-caption{font-size:19px;font-weight:400;line-height:1.45;color:var(--pilot-muted)}.pilot-canvas .pilot-kpi{display:block;font-size:80px;font-weight:700;line-height:1.1;letter-spacing:-.04em;color:var(--pilot-blue)}
+.pilot-cover-title{position:absolute;left:96px;top:230px;width:1120px}.pilot-cover-title h1{font-size:84px;font-weight:700;line-height:1.2;margin:38px 0}.pilot-cover-title>p:last-child{font-size:25px;width:850px;color:var(--pilot-muted)}.pilot-cover-index{position:absolute;left:1264px;top:230px;width:560px;border-left:1px solid var(--pilot-line);padding-left:44px}.pilot-cover-index a,.pilot-cover-index .pilot-index-item{display:block;position:relative;padding:36px 0 30px 48px;border-bottom:1px solid var(--pilot-line)}.pilot-cover-index a>span,.pilot-cover-index .pilot-index-item>span{position:absolute;left:0;top:40px;font-size:19px;color:var(--pilot-red)}.pilot-cover-index p:not(:first-child){font-size:19px;color:var(--pilot-muted);margin-top:12px}.pilot-cover-index a:hover h3{color:var(--pilot-red)}.pilot-cover-note{position:absolute;left:96px;top:768px;font-size:32px;font-weight:600;letter-spacing:-.025em}.pilot-color-strip{position:absolute;left:96px;top:938px;width:1728px;height:12px;display:flex}.pilot-color-strip i{flex:1;background:#894F24}.pilot-color-strip i:nth-child(2){background:#E94B22}.pilot-color-strip i:nth-child(3){background:#FAC000}.pilot-color-strip i:nth-child(4){background:#80BC27}.pilot-color-strip i:nth-child(5){background:#3DACDC}
+/* Data encoding: neutral baseline, blue observed after-value, red trade-off rule.
+   The five-color brand motif is reserved for the cover strip. */
+.pilot-canvas .pilot-kpi{color:var(--pilot-ink);font-variant-numeric:tabular-nums}
+.pilot-cover-index a>span,.pilot-cover-index .pilot-index-item>span{color:var(--pilot-muted)}
+.pilot-cover-title>p:last-child{width:1000px;max-width:100%;line-height:1.65}
+.pilot-cover-index{padding-left:32px}.pilot-cover-index a,.pilot-cover-index .pilot-index-item{padding-top:40px;padding-bottom:34px}
+.pilot-rate-chart{grid-column:1/9;margin:0;padding-right:24px;height:330px}
+.pilot-rate-chart figcaption{display:flex;justify-content:space-between;align-items:baseline;gap:24px}
+.pilot-axis{margin:20px 0 0;display:flex;justify-content:space-between;color:var(--pilot-muted);font-size:19px;border-bottom:1px solid var(--pilot-line);padding-bottom:8px}
+.pilot-rate-row{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:16px;font-size:25px;align-items:baseline}
+.pilot-rate-row>strong{font-size:32px;font-weight:600;line-height:1.2;font-variant-numeric:tabular-nums}
+.pilot-bar-track{grid-column:1/-1;height:26px;background:repeating-linear-gradient(90deg,#F5F7FA 0,#F5F7FA calc(50% - 1px),#E2E6EC 50%)}
+.pilot-bar{height:26px;background:#AAB3BF}.pilot-bar.is-after{background:var(--pilot-blue)}
+.pilot-sample{display:flex;justify-content:space-between;margin-top:18px;font-size:19px;color:var(--pilot-muted);font-variant-numeric:tabular-nums}
+.pilot-analysis-aside{grid-column:9/13;height:330px;border-left:1px solid var(--pilot-line);padding-left:32px}
+.pilot-analysis-aside .pilot-kpi{margin:24px 0 8px}.pilot-analysis-aside>p:not(.pilot-caption){font-size:25px}
+.pilot-analysis-aside .pilot-reading{margin-top:24px;color:var(--pilot-muted);line-height:1.65}
+.pilot-tradeoffs{position:absolute;top:354px;width:1728px;display:grid;grid-template-columns:414px 560px 1fr;gap:24px;border-top:2px solid var(--pilot-red);padding-top:16px;align-items:start}
+.pilot-tradeoffs h3{padding-top:1px}.pilot-tradeoffs p{font-size:25px;line-height:1.5}.pilot-tradeoffs>div>p:first-child{color:var(--pilot-muted)}
+.pilot-tradeoffs span{white-space:nowrap}.pilot-caveat{position:absolute;bottom:0;left:0;width:1728px;border-top:1px solid var(--pilot-line);padding-top:12px;display:flex;flex-direction:column;gap:4px}
+.pilot-canvas .pilot-caveat{color:var(--pilot-ink)}
+.pilot-growth-equation{grid-column:1/-1;display:grid;grid-template-columns:500px 60px 500px 60px 1fr;gap:24px;height:274px}
+.pilot-growth-equation section{padding-top:8px}.pilot-growth-equation h2{margin-top:10px}.pilot-growth-equation .pilot-kpi{margin:24px 0 20px;white-space:nowrap}.pilot-growth-equation section>p:last-child{font-size:25px;font-variant-numeric:tabular-nums}
+.pilot-growth-equation .pilot-growth-outcome{padding:4px 24px 24px;border-top:4px solid var(--pilot-blue);background:#F5F7FA}
+.pilot-equation-symbol{align-self:center;font-size:32px;font-weight:600;color:var(--pilot-muted);text-align:center}
+.pilot-growth-strategy{position:absolute;top:318px;width:1728px;display:grid;grid-template-columns:414px 60px 1fr auto;gap:24px;border-top:1px solid var(--pilot-line);padding-top:24px;align-items:start}
+.pilot-growth-strategy>span{font-size:32px;line-height:1.35;color:var(--pilot-muted)}.pilot-growth-strategy h3{margin-bottom:12px}.pilot-growth-strategy p{font-size:25px;color:var(--pilot-muted)}.pilot-growth-strategy .pilot-growth-profit{color:var(--pilot-ink);border-bottom:3px solid var(--pilot-blue);padding-bottom:10px}
+
+.presentation.pilot-active{background:#F5F7FA;color:#172033;--line:#E2E6EC;--muted:#526071;--green:#3DACDC}.pilot-active .topbar,.pilot-active .deck-footer{color:#172033}.pilot-active .edition{color:#526071}.pilot-active .side-arrow{color:#526071}
