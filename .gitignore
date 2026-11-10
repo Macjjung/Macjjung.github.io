@@ -8,3 +8,8 @@ node_modules/
 
 # Unreviewed Notion evidence: local only
 assets/private-five/
+
+# Internal references and local verification/export artifacts
+docs/references/*.pdf
+output/resume/
+tmp/
