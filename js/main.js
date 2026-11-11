@@ -1,147 +1,104 @@
-(async () => {
+(() => {
   'use strict';
-  const publicView = new URLSearchParams(location.search).get('view') === 'public';
-  if (publicView) {
-    window.PORTFOLIO.slides = window.PORTFOLIO.slides.filter(s => !s.pending);
-    window.PORTFOLIO.slides.forEach(s => {
-      if(s.cards) s.cards = s.cards.filter(c => !/추가 정보 필요|추가 예정|명세 확인 필요|근거 보완 필요/.test(c.title+' '+c.body));
-      if(s.kind === 'closing') s.note = '';
-    });
+  const {slides, profile, projects, aliases = {}} = window.PORTFOLIO;
+  const $ = selector => document.querySelector(selector);
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const lines = value => esc(value).replace(/\n/g, '<br>');
+  const tag = text => `<span class="tag">${esc(text)}</span>`;
+  const arrow = '<span class="arrow" aria-hidden="true">→</span>';
+  const pairs = rows => `<dl class="facts">${rows.map(([k,v])=>`<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`;
+  const table = (headers,rows) => `<table><thead><tr>${headers.map(h=>`<th scope="col">${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(row=>`<tr>${row.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+  const safeImage = path => typeof path==='string' && /^assets\/images\/[\w./ -]+\.(png|jpe?g|webp|svg)$/i.test(path) && !path.includes('..');
+  // Only explicitly verified assets enter slides. Missing evidence has a meaningful diagram fallback.
+  const evidence = (asset, fallback) => asset?.verified && safeImage(asset.src)
+    ? `<figure class="evidence"><button class="image-open" data-image="${esc(asset.src)}" data-alt="${esc(asset.alt)}" aria-label="이미지 확대"><img src="${esc(asset.src)}" alt="${esc(asset.alt)}"></button>${asset.caption === '' ? '' : `<figcaption>${esc(asset.caption || asset.alt)}</figcaption>`}</figure>`
+    : fallback;
+  const chart = c => `<figure class="bar-chart"><figcaption>${esc(c.title)}</figcaption><div class="chart-axis">${c.ticks.map(t=>`<span>${esc(t)}</span>`).join('')}</div>${c.rows.map(([label,value,display],i)=>`<div class="bar-row"><div class="bar-label"><span>${esc(label)}</span><strong>${esc(display)}</strong></div><div class="bar-track"><i class="${i?'after':''}" style="width:${value/c.maximum*100}%"></i></div></div>`).join('')}<p class="caption">0부터 시작하는 동일 척도 · ${esc(c.unit)}</p></figure>`;
+  const projectConcepts = {
+    '01': ['현금흐름 확보','PMF 검증','월 결제액 약 6배 성장'],
+    '02': ['구매·조건 달성','보상 직접 수령','사용 기회 연결'],
+    '03': ['사용자 유사도','실제 반응 데이터','카드 배정 조정']
+  };
+  function currencyResults(r) {
+    const u=r.usage;
+    return `<section class="currency-results" aria-label="${esc(r.title)}"><h3>${esc(r.title)}</h3><div class="currency-metrics"><article class="currency-usage" aria-label="${esc(u.definition)}"><h4>${esc(u.label)}</h4><div class="currency-rate">${u.before}% → ${u.after}% <span>${esc(u.change)}</span></div><div class="currency-bars" role="img" aria-label="A구간 ${u.before}%, B구간 ${u.after}%, 0부터 100% 동일 척도"><div><span>${u.before}%</span><i style="height:${u.before}%"></i></div><div><span>${u.after}%</span><i style="height:${u.after}%"></i></div></div></article>${r.metrics.map(m=>`<article class="currency-metric"><h4>${esc(m.label)}</h4><p>${esc(m.detail)}</p><strong>${esc(m.value)}</strong></article>`).join('')}</div><p class="currency-period">${esc(r.period)}<br>${esc(r.note)}</p></section>`;
   }
-  const { slides, profile, projects, aliases = {} } = window.PORTFOLIO;
-  const viewLink = document.createElement('a');
-  viewLink.href = publicView ? location.pathname + location.hash : '?view=public' + location.hash;
-  viewLink.textContent = publicView ? '편집용 보기' : '공개용 보기';
-  document.querySelector('.topbar nav').prepend(viewLink);
-  const $ = s => document.querySelector(s);
-  const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const lines = s => esc(s).replace(/\n/g, '<br>');
-  const safePath = p => typeof p === 'string' && /^\.?\/?assets\/[\w./ -]+\.(png|jpe?g|webp|svg)$/i.test(p) && !p.includes('..');
-  const media = matchMedia('(max-width: 700px)');
-  let reading = media.matches, explicitMode = false, current = 0, pointer = null, lastWheel = 0, wheelTotal = 0, lastWheelEvent = 0;
+  const renderers = {
+    cover: s => `<div class="cover-center"><p class="cover-overline">${esc(s.overline)}</p><h1>Portfolio<span class="cover-period">.</span></h1><div class="cover-identity"><p>${esc(profile.name)}</p><span>${esc(profile.role)}</span></div></div><div class="cover-bottom">${projects.map(p=>`<a href="#${p.id}"><span>${p.number}</span>${esc(p.skill)}</a>`).join('')}</div>`,
+    project: s => `<div class="project-copy">${tag('PROJECT '+s.projectNumber)}<h1>${lines(s.title)}</h1><p class="project-summary">${lines(s.summary)}</p><div class="project-skill">${esc(s.skill)}</div>${pairs(s.meta)}</div><div class="project-art" aria-hidden="true"><span class="chapter-number">${s.projectNumber}</span>${projectConcepts[s.projectNumber].map((v,i)=>`<div class="concept concept-${i}"><span>0${i+1}</span>${esc(v)}</div>`).join('')}</div>`,
+    about: s => `<div class="career-columns"><section class="career-history"><h2 class="career-section-title">커리어 흐름 <span>시간에 따른 역할의 확장</span></h2><div class="career-journey">${s.journey.map(([period,role,detail])=>`<section><span class="caption">${esc(period)}</span><h3>${esc(role)}</h3><p>${lines(detail)}</p></section>`).join('')}</div></section><section class="career-expertise"><h2 class="career-section-title">영역별 주요 경험</h2><div class="career-proof">${s.proofs.map(([label,action,result])=>`<section>${tag(label)}<div class="career-proof-body"><h3>${esc(action)}</h3><p>${lines(result)}</p></div></section>`).join('')}</div></section></div><p class="career-bridge">다음 세 사례에서는 제품 판단이 정책·경험·배정의 변화와 사업 지표로 이어지는 과정을 보여드립니다.</p>`,
+    contents: () => `<div class="contents-list">${projects.map((p,i)=>`<a href="#${p.id}"><span class="contents-number">${p.number}</span><div><p class="caption">${['PRODUCT STRATEGY','PURCHASE EXPERIENCE','RECOMMENDATION'][i]}</p><h2>${esc(p.name)}</h2><p>${esc(p.skill)}</p><p class="project-context">${esc(p.context)}</p></div><span class="contents-page">${p.pages} <b>↗</b></span></a>`).join('')}</div>`,
+    'strategy-decisions': s => { const c=s.businessContext; return `<div class="strategy-context"><b>${esc(c.label)}</b><p>고객 획득비 <strong>${esc(c.acquisitionCost)}</strong> &nbsp;vs&nbsp; 가입 120일 누적 매출 <strong>${esc(c.revenue120)}</strong> → ${esc(c.decision)}</p></div>${s.strategies.map((strategy,i)=>`<section class="strategy-group"><div class="strategy-row-title"><h2><span>${esc(strategy.label)}</span> ${esc(strategy.title)}</h2><p>${esc(strategy.description)}</p></div><div class="strategy-map ${i?'value':'free'}">${strategy.cards.map((card,j)=>`${j?arrow:''}<section class="strategy-cell ${['','hypothesis','decision'][j]}"><div class="cell-stage"><span>0${j+1}</span> ${esc(card.stage)}</div><h3>${lines(card.title)}</h3><p>${lines(card.description)}</p></section>`).join('')}</div></section>`).join('')}`; },
+    'dual-execution': s => `<div class="strategy-layout"><section class="strategy-panel"><div class="strategy-heading">${tag('현금흐름 확보')}<h2>핵심 경험은 남기고, 무료 공급은 축소</h2></div><div class="execution-summary"><div><span class="caption">지급 기준</span><p>첫 연락처 확인에 필요한<br>평균 티켓 수량</p></div>${arrow}<div><span class="caption">정책 변경</span><p>가입 무료티켓 <strong>약 절반으로</strong><br>보너스 재화 <strong>7·30·90일</strong> 유효기간</p></div></div>${currencyResults(s.panels[0].results)}</section><section class="strategy-panel"><div class="strategy-heading">${tag('PMF 검증')}<h2>‘진지한 만남’을 실제 구매 가치로</h2></div><div class="execution-summary"><div><span class="caption">포지셔닝 전환</span><p>프로필 탐색 앱에서<br><strong>모바일 결정사</strong>로</p></div>${arrow}<div class="execution-promise"><span class="caption">만남 보장 상품 · 더 블랙</span><p><strong>실제 만남 보장</strong><br>미성사 시 100% 환급</p></div></div><p class="diagram-note">직접 수행 · 전체 기획, 국내결혼중개업 신고·등록, 보증보험증권 발급</p>${evidence(s.panels[1].image,'<div class="execution-image-space" aria-label="더 블랙 상품 화면을 위한 여백"></div>')}</section></div>`,
+    'members-results': s => `<div class="growth-layout"><section class="growth-main"><div class="result-lead"><div><span>사업 전체 · 월 결제액</span><strong>약 6배</strong></div><p>담당 기간 중<br><b>흑자전환</b></p></div><figure class="column-chart"><figcaption class="caption">월 결제액 · 원 / 0부터 시작하는 동일 척도</figcaption><div class="column-plot"><div class="column-grid" aria-hidden="true">${[...s.chart.ticks].reverse().map(t=>`<div><span>${esc(t)}</span></div>`).join('')}</div><div class="column-bars">${s.chart.rows.map(([label,value,display],i)=>`<div class="column-group"><div class="column-bar ${i?'after':''}" style="height:${value/s.chart.maximum*100}%"><strong>${esc(display)}</strong></div><span class="column-label">${esc(label)}</span></div>`).join('')}</div></div></figure></section><div class="growth-detail"><section><p class="caption">사업 전체 · 2024.02 → 2026.07</p><div class="growth-factors"><div><h3>MAU <small>월간 활성 사용자</small></h3><p><span>2,670명</span>${arrow}<strong>6,120명</strong></p></div><div><h3>ARPU <small>사용자당 매출</small></h3><p><span>7,562원</span>${arrow}<strong>19,730원</strong></p></div></div></section><section class="tinted"><p class="caption">무료 재화 정책 적용 월 · 2024.04 → 05</p><div class="policy-metrics"><div><h3>ARPU</h3><strong>+56.7%</strong></div><div><h3>월 결제액</h3><strong>+65.3%</strong></div></div><p class="caption">5월은 가입 지급량 변경 전후가 섞인 기간</p></section><section><p class="caption">더 블랙 · 상품 매출</p><h3>월 800만~1,000만 원</h3></section></div></div>`,
+    'purchase-problem': s => `<div class="event-reasoning"><div class="event-evidence">${s.reasoning.map(r=>`<section><span class="caption">${esc(r.label)}</span><h2>${esc(r.title)}</h2><p>${esc(r.body)}</p></section>`).join('')}<section class="event-hypothesis"><span class="caption">개선 가설</span><h2>${esc(s.hypothesis.title)}</h2><p>${esc(s.hypothesis.body)}</p></section></div><section class="behavior-design"><div class="behavior-heading">${tag('정보를 행동으로 연결')}<h2>고객이 판단할 정보와 실행할 행동을 함께 설계</h2></div><div class="behavior-columns"><span>고객의 질문</span><span>연결한 정보</span><span>기대 행동</span></div>${s.behaviorRows.map((r,i)=>`<div class="behavior-row"><div><span class="behavior-number">0${i+1}</span><h3>${esc(r.question)}</h3></div><div><strong>${esc(r.information)}</strong></div><div>${arrow}<p>${esc(r.action)}</p></div></div>`).join('')}<p class="behavior-purpose">설계 목표 · 혜택을 이해하고, 다음 구매를 판단하고, 보상을 사용할 기회로 연결</p></section></div>`,
+    'purchase-execution': s => `<div class="event-screen-comparison">${s.panels.map((p,i)=>`<section class="event-screen-panel ${i?'after':'before'}"><header>${tag(p.label)}<h2>${esc(p.title)}</h2>${p.supplementalImage?.verified && safeImage(p.supplementalImage.src)?`<button class="event-detail-open" data-image="${esc(p.supplementalImage.src)}" data-alt="${esc(p.supplementalImage.alt)}" aria-label="티켓 스토어 단계별 화면 확대">단계별 화면 ↗</button>`:''}</header><p class="event-flow">${esc(p.flow)}</p>${evidence(p.image,`<div class="event-screen-space" aria-label="${esc(p.placeholder)} 삽입 공간"><span>${esc(p.placeholder)}</span><p>${esc(p.description)}</p></div>`)}${i?`<div class="event-ux-decisions">${s.uxDecisions.map(([n,label,copy])=>`<div><span>${esc(n)} · ${esc(label)}</span><p>${esc(copy)}</p></div>`).join('')}</div>`:`<div class="event-before-note"><span>기존 흐름</span><p>구매 시점과 보상을 사용할 수 있는 시점 사이에 대기</p></div>`}</section>`).join('')}</div>`,
+    'purchase-results': s => `<div class="purchase-results-layout"><div class="metric-pair">${s.metrics.map(([label,value,detail])=>`<section><h3>${esc(label)}</h3><strong>${esc(value)}</strong><p>${esc(detail)}</p></section>`).join('')}</div><div class="purchase-results-bottom"><section class="event-outcome"><h2>이벤트 이후 구매까지 이어졌나?</h2><p class="caption">서비스 전체 · 직전 14일 일평균 매출 대비</p>${table(['종료 후','개편 전','개편 후','전후 차이'],[['1~7일','−10.1%','−11.8%','−1.7%p 악화'],['8~14일','−11.4%','−6.0%','+5.4%p 완화']])}<div class="event-result-reading"><strong>둘째 주 하락은 완화 · 구매 절벽 해소는 미확인</strong><p>17일 누적 결제 지수 0.992 → 1.022</p></div></section><section class="learning-panel"><h2>구매 이후 ‘사용’은 더 개선할 여지</h2><p class="caption">참여자 · 이벤트 전 활동 수준을 보정한 지수</p><div class="event-index-pair"><p>구매 <strong>1.559 → 1.636</strong></p><p>소비 <strong>1.170 → 1.212</strong></p></div><p>구매보다 소비 지수의 증가폭은 작았습니다.</p><div class="event-next"><span class="caption">후속 계획 · 보상 사용 유도</span><h3>보상 수령 직후, 사용할 다음 행동을 제안</h3><p>관심 콘텐츠·중단한 행동을 연결하는 넛지</p><p class="caption">검증: 행동 완료율 · 3/7일 소비 · 후속 구매</p></div></section></div></div>`,
+    'matching-problem': s => `<div class="recommendation-problem"><div class="recommendation-process">${s.process.map(([label,detail],i)=>`<section><span class="caption">0${i+1}</span><h3>${esc(label)}</h3><p>${esc(detail)}</p></section>${i<2?arrow:''}`).join('')}</div><div class="recommendation-analysis"><section class="rank-model">${tag('유지한 정렬 기준')}<h2>가까운 후보를 찾는 적합도</h2><div class="rank-equation" aria-label="적합도는 나이 등급 차이 제곱, 보정 점수 등급 차이 제곱, 거리 등급 제곱의 합의 제곱근">d(u,v) = √[ (aᵤ − aᵥ)² + (s′ᵤ − sᵥ)² + gᵤᵥ² ]</div><div class="rank-definitions"><p><b>a</b> 나이 등급 · 0~3</p><p><b>s′</b> 보정 점수 · 0~5</p><p><b>g</b> 거리 등급 · 0~11</p></div><div class="rank-implication"><strong>등급의 범위가 달라, 세 항목의 영향도도 다름</strong><p>거리가 순위를 크게 좌우할 수 있음<br>s′ᵤ = max(0, sᵤ − 눈높이 보정값) · 작은 d부터 배정</p></div></section><section class="allocation-question"><div class="slot-distinction"><div><span>내가 받는 카드</span><strong>일반 8장</strong><small>조건 충족 시 보너스 1장 공개</small></div><div><span>내가 타인에게 보이는 횟수</span><strong>프로필별 노출 상한</strong><small>수신량과 별도로 관리</small></div></div><article class="response-evidence"><h3>${esc(s.responseEvidence.title)}</h3><div>${s.responseEvidence.rows.map(([label,value])=>`<section><span>${esc(label)}</span><strong>${esc(value)}</strong></section>`).join('')}</div><p>${esc(s.responseEvidence.source)}</p></article><p class="allocation-cost">배정 판단 · 반응률과 노출 상한을 함께 고려해 탐색 기회 배분</p></section></div></div>`,
+    'matching-execution': s => `<div class="recommendation-execution"><section class="implemented-policy">${tag('1차 · 적용 완료')}<h2>노출 기회와 후보풀을 조정</h2><h3>01 · 남성 프로필 노출 상한</h3><div class="exposure-caps">${s.caps.map(([label,value])=>`<div><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join('')}</div><p class="policy-preserved">여성 프로필의 기존 상한 50회·저평점 2회 유지<br>기본 수신 8장과 거리 기반 정렬 유지</p><div class="history-release"><h3>02 · 1년 이상 지난 호감 기록 해제</h3><p>과거 기록 때문에 제외되던 후보를 다시 검토할 수 있도록 후보풀을 개선했습니다.</p></div></section><section class="expected-value-model">${tag('후속 R&D · 평가 기준')}<h2>노출 한 장이 최종 행동으로 이어질 기대값</h2><div class="probability-definitions"><p><b>p</b> = 호감 전송 / 노출</p><p><b>q</b> = 번호 오픈 / 호감 전송</p></div><div class="expectation-formulas"><div><span>1,000회 노출당 기대 번호 오픈</span><strong>1,000 × p × q</strong></div><div><span>1회 노출당 기대 스푼 소비</span><strong>5p + 20pq</strong></div></div><p class="expectation-reading">호감 전송 5스푼 · 번호 오픈 20스푼<br>q에 호감 이후의 전환이 포함되므로 수락률을 다시 곱하지 않음</p><div class="allocation-objective"><span class="caption">배정량까지 함께 비교</span><div class="allocation-equation">E[번호 오픈] = Σ nᵢⱼ pᵢⱼ qᵢⱼ</div><p>nᵢⱼ = 사용자·그룹 조합별 노출 배정량</p><strong>수신 슬롯·노출 상한·활동성을 고려해 배정 방향 검토</strong></div></section></div>`,
+    'matching-results': s => {const r=s.results,c=r.consumption;return `<div class="recommendation-results"><section class="first-release-results">${tag('1차 이후 · 관찰 결과')}<div class="recommendation-metrics"><section class="recommendation-chart">${chart(s.chart)}<p class="recommendation-delta">상대 <strong>${esc(r.rateChange)}</strong></p></section><section class="recommendation-consumption"><h3>활성 사용자당<br>데일리카드 소비</h3><strong>${esc(c.change)}</strong><p>${esc(c.before)} → ${esc(c.after)} 스푼</p></section></div><p class="recommendation-volumes">${r.volume.map(([label,value])=>esc(label)+' <b>'+esc(value)+'</b>').join('　·　')}</p><div class="downstream-metrics"><h3>후속 전환율은 하락</h3>${r.tradeoffs.map(([label,before,after,delta])=>`<div><span>${esc(label)}</span><p>${esc(before)} → ${esc(after)}</p><strong>${esc(delta)}</strong></div>`).join('')}</div><div class="recommendation-service"><span>서비스 전체 · 같은 기간</span><p>${r.service.map(([label,value])=>esc(label)+' <b>'+esc(value)+'</b>').join('　·　')}</p></div></section><section class="research-agenda">${tag('후속 R&D · 검증 중인 질문')}<h2>호감이 쌓이면 왜 수락률이 낮을까?</h2>${s.research.map(([label,question],i)=>`<article><span>0${i+1} · ${esc(label)}</span><p>${esc(question)}</p></article>`).join('')}<div class="research-next"><h3>등급 조합에서 개인별 기대값으로</h3><p>접속·활동 수준과 받은 호감 누적량을 분리해 분석하고, 후속 실험으로 배정 방향을 검증할 계획입니다.</p></div></section></div>`;}
 
-  const sectionStarts = Object.fromEntries(projects.map(p=>[p.id,['PROJECT '+p.number,p.name,p.skill,'']]));
-  const flow = items => '<ol class="structure-flow">'+items.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ol>';
-  const slot = p => '<figure class="structure-evidence"><div>'+esc(p.label || '제품 화면 삽입 예정')+' · 삽입 예정</div><figcaption>'+esc(p.caption)+'</figcaption></figure>';
-  const table = (headers,rows) => '<table class="structure-table"><thead><tr>'+headers.map(h=>'<th>'+esc(h)+'</th>').join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(c=>'<td>'+esc(c)+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
-  const chart = c => '<figure class="structure-chart"><h2>'+esc(c.title)+'</h2><div class="structure-axis">'+c.ticks.map(t=>'<span>'+esc(t)+'</span>').join('')+'</div>'+c.rows.map(([label,value,display],i)=>'<div class="structure-bar-row"><p><span>'+esc(label)+'</span><strong>'+esc(display)+'</strong></p><div class="structure-track"><i class="'+(i?'after':'')+'" style="width:'+value/c.maximum*100+'%"></i></div></div>').join('')+'<figcaption>0부터 시작하는 동일 척도 · '+esc(c.unit)+'</figcaption></figure>';
-  const pairs = rows => '<dl class="structure-pairs">'+rows.map(([k,v])=>'<div><dt>'+esc(k)+'</dt><dd>'+esc(v)+'</dd></div>').join('')+'</dl>';
-
-  // L06: matching results only. Each measure keeps its own unit and population.
-  function matchingResults(s) {
-    const r = s.results, c = r.consumption;
-    const bars = s.chart.rows.map(([label,value,display],i) =>
-      '<span class="matching-rate-label">'+esc(label)+'</span>'+
-      '<svg class="matching-rate-bar" viewBox="0 0 800 28" preserveAspectRatio="none" aria-hidden="true"><rect width="800" height="28" fill="#F3F5F8"/><rect width="'+(value/s.chart.maximum*800)+'" height="28" fill="'+(i?'#3DACDC':'#AAB3BF')+'"/></svg>'+
-      '<strong class="matching-rate-value">'+esc(display)+'</strong>').join('');
-    return '<div class="matching-results-layout">'+
-      '<div class="matching-primary">'+
-        '<figure class="matching-efficiency" aria-labelledby="matching-efficiency-title">'+
-          '<figcaption><h2 id="matching-efficiency-title">'+esc(s.chart.title)+'</h2><p class="matching-change">상대 증가 <strong>'+esc(r.rateChange)+'</strong></p></figcaption>'+
-          '<div class="matching-rate-grid"><div class="matching-rate-axis">'+s.chart.ticks.map(t=>'<span>'+esc(t)+'</span>').join('')+'</div>'+bars+'</div>'+
-          '<p class="matching-volume">'+r.volume.map(([label,value])=>'<span>'+esc(label)+' <b>'+esc(value)+'</b></span>').join('')+'</p>'+
-        '</figure>'+
-        '<section class="matching-consumption"><h2>'+esc(c.title)+'</h2>'+
-          '<div class="matching-consumption-values"><div><span>개편 전</span><strong>'+esc(c.before)+'</strong></div><span class="matching-value-arrow" aria-hidden="true">→</span><div><span>개편 후</span><strong>'+esc(c.after)+'<small>'+esc(c.unit)+'</small></strong></div></div>'+
-          '<p class="matching-consumption-change">사용자당 소비 <strong>'+esc(c.change)+'</strong></p><p class="matching-unit-note">스푼 소비량 · 행동 건수·실제 결제액과 구분</p>'+
-        '</section>'+
-      '</div>'+
-      '<section class="matching-service"><h3>서비스 전체 · 동반 변화</h3><div><p>'+r.service.map(([label,value])=>'<span>'+esc(label)+' <b>'+esc(value)+'</b></span>').join('')+'</p><p class="matching-unit-note">같은 50일간의 관찰이며, 소개 로직 개편만의 인과효과가 아닙니다.</p></div></section>'+
-      '<section class="matching-followups"><h3>후속 전환율 하락</h3>'+r.tradeoffs.map(([label,before,after,delta])=>'<div><h3>'+esc(label)+'</h3><p><span>'+esc(before)+' → <strong>'+esc(after)+'</strong></span><b>'+esc(delta)+'</b></p></div>').join('')+'</section>'+
-    '</div>';
-  }
-
-  function structureArticle(s,i) {
-    let body='';
-    switch(s.variant) {
-      case 'cover': body='<div class="structure-cover-content"><h1>'+lines(s.title)+'</h1><p class="structure-name">'+esc(profile.name)+'</p><p>'+esc(profile.role)+'</p></div>';break;
-      case 'project': body='<div class="structure-project-content"><p class="structure-label">PROJECT '+s.projectNumber+'</p><h1>'+esc(s.title)+'</h1><p class="structure-summary">'+esc(s.summary)+'</p><p class="structure-skill">'+esc(s.skill)+'</p>'+pairs(s.meta)+'</div>';break;
-      case 'about': body='<div class="structure-columns"><section><h2>'+esc(profile.name)+'</h2><p>'+esc(profile.role)+'</p><h3 class="structure-spaced">주요 수행 영역</h3>'+s.areas.map(x=>'<p>'+esc(x)+'</p>').join('')+'</section><section><h2>Experience</h2>'+s.experience.map(([period,company,role])=>'<div class="structure-career"><p class="structure-label">'+esc(period)+'</p><h3>'+esc(company)+'</h3><p>'+esc(role)+'</p></div>').join('')+'</section></div>';break;
-      case 'contents': body='<div class="structure-contents">'+projects.map(p=>'<a href="#'+p.id+'"><span>'+p.number+'</span><div><h2>'+esc(p.name)+'</h2><p>'+esc(p.skill)+'</p></div><span>p. '+p.pages+' →</span></a>').join('')+'</div>';break;
-      case 'decision-grid': body='<p class="structure-label">'+esc(s.baselineLabel)+'</p><div class="structure-baseline">'+s.baseline.map(([k,v])=>'<div><span>'+esc(k)+'</span><strong>'+esc(v)+'</strong></div>').join('')+'</div>'+table(['문제','판단','실행'],s.decisions)+'<p class="structure-evidence-note">'+esc(s.evidence)+'</p>';break;
-      case 'dual-execution': case 'purchase-execution': body='<div class="structure-columns">'+s.panels.map(p=>'<section><h2>'+esc(p.title)+'</h2>'+(p.flow?flow(p.flow):'<p class="structure-panel-copy">'+esc(p.body)+'</p>')+slot(p)+'</section>').join('')+'</div>';break;
-      case 'purchase-problem': case 'matching-problem': body='<div class="structure-columns"><div class="structure-reasoning">'+s.steps.map(([h,p])=>'<section><h3>'+esc(h)+'</h3><p>'+esc(p)+'</p></section>').join('')+'</div><section>'+(s.image?slot(s.image):'<h2>기존 보상 지급 흐름</h2>'+flow(['티켓 구매','행사 종료까지 대기','보상 지급'])+'<p class="structure-panel-copy">구매·사용 의사가 생긴 시점과 보상 수령 사이에 시차가 있었습니다.</p><p class="structure-label">설명용 흐름 · 실측 시간축 아님</p>'+slot({label:'구매·소비 분석 자료',caption:'예: 성별·시차별 구매–소비 상관관계 그래프'}))+'</section></div>';break;
-      case 'members-results': body='<div class="structure-columns structure-result-columns">'+chart(s.chart)+'<section class="structure-results-list"><h3>사업 전체 · 2024.02 → 2026.07</h3>'+pairs([['MAU','2,670 → 6,120명'],['ARPU','7,562 → 19,730원'],['손익','담당 기간 중 흑자전환']])+'<h3>정책 적용 월 · 2024.04 → 05</h3><p>ARPU +56.7% · 월 결제액 +65.3%</p><p class="structure-label">5월은 가입 지급량 변경 전후가 섞인 기간</p><h3>더 블랙 · 상품 매출</h3><p>월 800만~1,000만 원 · 순증 효과 아님</p></section></div>';break;
-      case 'purchase-results': body='<div class="structure-metrics structure-result-columns">'+s.metrics.map(([label,v,detail])=>'<section><h3>'+esc(label)+'</h3><strong>'+esc(v)+'</strong><p>'+esc(detail)+'</p></section>').join('')+'</div><div class="structure-columns structure-compact structure-result-columns"><section><h3>서비스 전체 · 종료 후 매출 변화</h3>'+table(['기간','변경 전','변경 후'],[['1~7일','−10.1%','−11.8%'],['8~14일','−11.4%','−6.0%']])+'<p>17일 누적 결제 지수 0.992 → 1.022</p></section><section><h3>구매 절벽 해소는 확인하지 못했다</h3><p>참여자 구매 지수 1.559 → 1.636<br>참여자 소비 지수 1.170 → 1.212</p><p>소비 지수의 개선 폭이 더 작았습니다.</p><p><b>후속 계획</b> · 보상 수령 직후 사용 넛지</p></section></div>';break;
-      case 'matching-execution': body='<div class="structure-columns"><section><h3>기존 · 유사도 기반</h3>'+flow(['사용자 특성','유사도 계산','카드 배정'])+'</section><section><h3>변경 · 실제 반응으로 보완</h3>'+flow(['성별·등급별 반응','낮은 반응 조합 축소','배정 비율 조정'])+'</section></div><div class="structure-columns structure-execution-bottom"><section><h2>관찰한 사용자 흐름</h2>'+flow(['노출','호감 전송','수락','번호 오픈'])+'<p>연결 이후 재화 소비와 실제 결제도 별도로 관찰했습니다.</p></section>'+slot({label:'사용자 흐름 화면',caption:'예: 데일리카드·호감 전송·번호 오픈 화면'})+'</div>';break;
-      case 'matching-results': body=matchingResults(s);break;
-    }
+  };
+  function slideHTML(s,i) {
     const special=['cover','project'].includes(s.variant);
-    return '<article id="'+s.id+'" class="slide pilot-slide structure-slide structure-'+s.variant+' title-lines-'+s.titleLines+'" data-layout="'+s.layout+'" aria-label="'+(i+1)+' / '+slides.length+'"><div class="pilot-canvas"><header class="pilot-header"><span>'+esc(profile.name)+' · Product Manager</span><span>쿠팡 Shopping · Lead PM 지원</span></header>'+(special?'':'<div class="pilot-title-area"><p class="pilot-eyebrow">'+esc(s.group)+(s.stage?' / '+esc(s.stage):'')+'</p><h1 class="pilot-h1">'+lines(s.title)+'</h1><p class="pilot-subtitle">'+esc(s.subtitle)+'</p></div>')+(special?'<div class="structure-intro-frame">'+body+'</div>'+(s.variant==='cover'?'<div class="pilot-color-strip"><i></i><i></i><i></i><i></i><i></i></div>':''):'<div class="structure-main"><div class="structure-body">'+body+'</div>'+(s.notes?'<aside class="structure-notes">'+s.notes.map(n=>'<p>'+esc(n)+'</p>').join('')+'</aside>':'')+'</div>')+'<footer class="pilot-footer"><span>'+esc(s.group)+'</span><span>'+String(i+1).padStart(2,'0')+' / '+slides.length+'</span></footer></div></article>';
+    if(!renderers[s.variant]) throw new Error('Unknown slide variant: '+s.variant);
+    return `<article class="slide variant-${s.variant}" id="${s.id}" aria-label="${i+1} / ${slides.length}"><div class="slide-canvas"><header class="slide-header"><span>${esc(profile.name)} / Product Manager</span><span>${special?'PORTFOLIO 2026':esc(s.group)}</span></header>${special?'':`<div class="slide-heading">${tag(s.stage || 'INTRODUCTION')}<h1>${lines(s.title)}</h1><p class="subtitle">${esc(s.subtitle)}</p></div>`}<div class="slide-body">${renderers[s.variant](s)}</div>${s.notes?`<aside class="slide-notes">${s.notes.map(n=>`<p>${esc(n)}</p>`).join('')}</aside>`:''}<footer class="slide-footer"><span>${s.variant==='project'?'쿠팡 Shopping · Lead PM 지원':esc(s.group)}</span><span>${String(i+1).padStart(2,'0')} / ${slides.length}</span></footer></div></article>`;
   }
-  function fitPilotCanvases() {
-    document.querySelectorAll('.pilot-slide').forEach(slide => {
-      const host = document.querySelector('#stage');
-      const width = Math.min(1920, host.clientWidth, reading ? Infinity : host.clientHeight * 1920 / 1080);
-      slide.style.width = `${width}px`;
-      slide.style.setProperty('--pilot-scale', width / 1920);
-      slide.style.height = `${width * 1080 / 1920}px`;
-    });
+  const mobile=matchMedia('(max-width:700px)');
+  let reading=mobile.matches,manualMode=false,current=0,printMode=null,pointer=null,lastWheel=0;
+  const stage=$('#stage'),content=$('#slide-content');
+  function fit(){
+    const width=Math.max(1,Math.min(1920,stage.clientWidth,reading?Infinity:stage.clientHeight*16/9));
+    document.querySelectorAll('.slide').forEach(s=>{s.style.width=width+'px';s.style.height=width*9/16+'px';s.style.setProperty('--scale',width/1920);});
   }
-  new ResizeObserver(fitPilotCanvases).observe(document.querySelector('#stage'));
-  const article = structureArticle;
-  function syncNav() {
-    $('#counter').innerHTML=`<b>${String(current+1).padStart(2,'0')}</b><span>/ ${slides.length}</span>`;
+  function sync(){
+    $('#counter').textContent=`${String(current+1).padStart(2,'0')} / ${slides.length}`;
     $('#section-name').textContent=slides[current].group;
-    const upcoming=slides[current+1];
-    const newSection=upcoming&&sectionStarts[upcoming.id];
-    $('.key-hint').innerHTML=upcoming?`<a class="next-preview" href="#${upcoming.id}"><span>${newSection?'다음 구간':'다음 내용'}</span><strong>${esc(newSection?newSection[1]:upcoming.title.replace(/\n/g,' '))}</strong><b aria-hidden="true">→</b></a>`:``;
-    for(const id of ['previous','side-previous']) $('#'+id).disabled=current===0;
-    for(const id of ['next','side-next']) $('#'+id).disabled=current===slides.length-1;
-    $('#progress').style.width=`${(current+1)/slides.length*100}%`;
-    document.querySelectorAll('#toc-list a').forEach(a=>{if(a.hash===`#${slides[current].id}`)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+    ['previous','side-previous'].forEach(id=>$('#'+id).disabled=current===0);
+    ['next','side-next'].forEach(id=>$('#'+id).disabled=current===slides.length-1);
+    $('#progress').style.width=(current+1)/slides.length*100+'%';
+    document.querySelectorAll('#toc-list a').forEach(a=>a.toggleAttribute('aria-current',a.hash==='#'+slides[current].id));
+    document.title=slides[current].title.replace(/\n/g,' ')+' | PM Portfolio';
   }
-  function render() {
+  function render(){
     document.body.classList.toggle('reading',reading);
-    document.querySelector('#presentation').classList.toggle('pilot-active', !!slides[current].pilot);
     $('#mode-toggle').textContent=reading?'슬라이드 보기':'이어 읽기';
     $('#mode-toggle').setAttribute('aria-pressed',String(reading));
-    $('#slide-content').innerHTML=reading?slides.map(article).join(''):article(slides[current],current);
-    $('#slide-content').scrollTop=0;syncNav();fitPilotCanvases();
+    content.innerHTML=reading?slides.map(slideHTML).join(''):slideHTML(slides[current],current);
+    fit();sync();
   }
-  function route() {
-    let hash=location.hash.slice(1);
-    if(hash==='slide-content'){$('#slide-content').focus({preventScroll:true});return;}
-    if(aliases[hash]) {hash=aliases[hash];history.replaceState(null,'',`#${hash}`);}
-    if(hash.startsWith('appendix')) {
-      hash = slides.find(s => `appendix-${s.appendix}` === hash)?.id || 'cover';
-      history.replaceState(null, '', `#${hash}`);
-    }
-    const i=slides.findIndex(s=>s.id===hash);current=i<0?0:i;
-    if(!reading)render(); else syncNav();
-    document.title=`${slides[current].title.replace(/\n/g,' ')} | Senior PM Portfolio`;
-    if(reading)document.getElementById(slides[current].id).scrollIntoView({behavior:'instant',block:'start'});
-    else window.scrollTo({top:0,behavior:'instant'});
+  function route(){
+    let id=location.hash.slice(1);
+    if(id==='slide-content'){content.focus();return;}
+    if(aliases[id]){id=aliases[id];history.replaceState(null,'','#'+id);}
+    if(id.startsWith('appendix-')){id=slides.find(s=>s.appendix===id.slice(9))?.id||'cover';history.replaceState(null,'','#'+id);}
+    current=Math.max(0,slides.findIndex(s=>s.id===id));
+    if(reading){sync();document.getElementById(slides[current].id)?.scrollIntoView({block:'start'});}else{render();window.scrollTo(0,0);}
   }
-  function go(i) {if(i>=0&&i<slides.length&&i!==current)location.hash=slides[i].id;}
-  const groups = [["시작하기",["cover","about","contents"]],...projects.map(p=>[p.number+" / "+p.name,p.ids])];
-  $('#toc-list').innerHTML=groups.map(([name,ids])=>[name,ids.filter(id=>slides.some(s=>s.id===id))]).filter(([,ids])=>ids.length).map(([name,ids])=>`<details class="toc-group"><summary>${name}<small>${ids.length}장</small></summary>${ids.map(id=>{const i=slides.findIndex(s=>s.id===id);return `<a href="#${id}"><span>${String(i+1).padStart(2,'0')}</span><div>${esc(slides[i].title.replace(/\n/g,' '))}</div><span>↗</span></a>`;}).join('')}</details>`).join('');
-  $('#toc-open').addEventListener('click',()=>$('#toc-dialog').showModal());
-  document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>b.closest('dialog').close()));
-  document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}}));
-  $('#toc-list').addEventListener('click',e=>{if(e.target.closest('a')){$('#toc-dialog').close();$('#slide-content').focus({preventScroll:true});}});
-  $('#mode-toggle').addEventListener('click',()=>{explicitMode=true;reading=!reading;history.replaceState(null,'',`#${slides[current].id}`);render();route();});
-  media.addEventListener('change',()=>{if(!explicitMode){reading=media.matches;render();route();}});
-  for(const id of ['previous','side-previous'])$('#'+id).addEventListener('click',()=>go(current-1));
-  for(const id of ['next','side-next'])$('#'+id).addEventListener('click',()=>go(current+1));
-  document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(a&&a.hash===location.hash){e.preventDefault();route();}});
-  document.addEventListener('keydown',e=>{
-    if(reading||document.querySelector('dialog[open]')||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)||e.target.isContentEditable||window.scrollY>window.innerHeight/2)return;
-    if(['ArrowRight','ArrowLeft','Home','End'].includes(e.key)){e.preventDefault();go(e.key==='Home'?0:e.key==='End'?slides.length-1:current+(e.key==='ArrowRight'?1:-1));}
-  });
-  $('#stage').addEventListener('wheel',e=>{if(reading||Math.abs(e.deltaX)<=Math.abs(e.deltaY)||Math.abs(e.deltaX)<2)return;e.preventDefault();const now=Date.now();if(now-lastWheel<650)return;if(now-lastWheelEvent>180)wheelTotal=0;lastWheelEvent=now;wheelTotal+=e.deltaX;if(Math.abs(wheelTotal)>65){go(current+(wheelTotal>0?1:-1));lastWheel=now;wheelTotal=0;}},{passive:false});
-  $('#stage').addEventListener('pointerdown',e=>{if(reading||e.target.closest('a,button,svg,table')||(e.pointerType==='mouse'&&e.button!==0))return;pointer={x:e.clientX,y:e.clientY,id:e.pointerId};});
-  $('#stage').addEventListener('pointerup',e=>{if(!pointer||pointer.id!==e.pointerId)return;const dx=e.clientX-pointer.x,dy=e.clientY-pointer.y;pointer=null;if(Math.abs(dx)>65&&Math.abs(dx)>Math.abs(dy)*1.6){go(current+(dx<0?1:-1));window.getSelection()?.removeAllRanges();}});
-  $('#stage').addEventListener('pointercancel',()=>pointer=null);
-  $('#stage').addEventListener('pointerleave',e=>{if(e.pointerType==='mouse')pointer=null;});
-  let scrollQueued=false;
-  window.addEventListener('scroll',()=>{if(!reading||scrollQueued)return;scrollQueued=true;requestAnimationFrame(()=>{scrollQueued=false;const nodes=[...document.querySelectorAll('#slide-content > article')];const index=nodes.findLastIndex(n=>n.getBoundingClientRect().top<150);if(index>=0&&index!==current){current=index;syncNav();}});},{passive:true});
+  function go(index){if(index>=0&&index<slides.length) location.hash=slides[index].id;}
+  $('#toc-list').innerHTML=[{name:'INTRODUCTION',ids:['cover','about','contents']},...projects].map(p=>`<section><h3>${esc(p.name)}</h3>${p.ids.map(id=>{const i=slides.findIndex(s=>s.id===id);return `<a href="#${id}"><span>${String(i+1).padStart(2,'0')}</span>${esc(slides[i].title.replace(/\n/g,' '))}</a>`;}).join('')}</section>`).join('');
+  $('#toc-open').onclick=()=>$('#toc-dialog').showModal();
+  document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>b.closest('dialog').close());
+  document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target!==d)return;const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}));
+  $('#toc-list').onclick=e=>{if(e.target.closest('a')){$('#toc-dialog').close();content.focus({preventScroll:true});}};
+  $('#mode-toggle').onclick=()=>{manualMode=true;reading=!reading;render();route();};
+  mobile.addEventListener('change',()=>{if(!manualMode){reading=mobile.matches;render();route();}});
+  ['previous','side-previous'].forEach(id=>$('#'+id).onclick=()=>go(current-1));
+  ['next','side-next'].forEach(id=>$('#'+id).onclick=()=>go(current+1));
+  document.addEventListener('keydown',e=>{if(reading||document.querySelector('dialog[open]')||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();go(e.key==='Home'?0:e.key==='End'?slides.length-1:current+(e.key==='ArrowRight'?1:-1));}});
+  stage.addEventListener('pointerdown',e=>{if(!reading&&!e.target.closest('button,a')&&e.button===0)pointer={x:e.clientX,y:e.clientY};});
+  stage.addEventListener('pointerup',e=>{if(!pointer)return;const dx=e.clientX-pointer.x,dy=e.clientY-pointer.y;pointer=null;if(Math.abs(dx)>65&&Math.abs(dx)>Math.abs(dy)*1.6)go(current+(dx<0?1:-1));});
+  stage.addEventListener('pointercancel',()=>pointer=null);
+  stage.addEventListener('wheel',e=>{if(reading||Math.abs(e.deltaX)<30||Math.abs(e.deltaX)<=Math.abs(e.deltaY))return;e.preventDefault();if(Date.now()-lastWheel>650){lastWheel=Date.now();go(current+(e.deltaX>0?1:-1));}},{passive:false});
+  let scrollFrame=false;
+  window.addEventListener('scroll',()=>{if(!reading||scrollFrame)return;scrollFrame=true;requestAnimationFrame(()=>{scrollFrame=false;const all=[...content.children];const i=all.findLastIndex(s=>s.getBoundingClientRect().top<150);if(i>=0&&i!==current){current=i;sync();}});});
   $('#fullscreen').hidden=!document.fullscreenEnabled;
-  $('#fullscreen').addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{$('#toast').textContent='이 브라우저에서는 전체 화면을 사용할 수 없습니다.';setTimeout(()=>$('#toast').textContent='',3500);}});
+  $('#fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{$('#toast').textContent='전체 화면을 사용할 수 없습니다.';}};
   document.addEventListener('click',e=>{const b=e.target.closest('[data-image]');if(!b)return;$('#expanded-image').src=b.dataset.image;$('#expanded-image').alt=b.dataset.alt;$('#image-caption').textContent=b.dataset.alt;$('#image-dialog').showModal();});
-  document.querySelectorAll('.image-thumb img').forEach(img=>img.addEventListener('error',()=>{const b=img.closest('button');b.disabled=true;b.removeAttribute('data-image');b.innerHTML='<span>이미지를 불러올 수 없습니다.</span>';}));
-  let printReading = null;
-  window.addEventListener('beforeprint',()=>{printReading=reading;reading=true;render();});
-  window.addEventListener('afterprint',()=>{if(printReading!==null){reading=printReading;printReading=null;render();route();}});
-  window.addEventListener('hashchange',route);render();route();
+  content.addEventListener('error',e=>{if(e.target.tagName==='IMG'){const figure=e.target.closest('figure');figure?.classList.add('image-error');if(figure)figure.querySelector('figcaption').textContent='이미지를 불러오지 못했습니다.';}},true);
+  window.addEventListener('beforeprint',()=>{printMode=reading;reading=true;render();});
+  window.addEventListener('afterprint',()=>{if(printMode!==null){reading=printMode;printMode=null;render();route();}});
+  new ResizeObserver(fit).observe(stage);
+  window.addEventListener('hashchange',route);
+  render();route();
 })();

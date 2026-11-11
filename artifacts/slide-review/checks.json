@@ -1,0 +1,270 @@
+{
+  "slides": [
+    {
+      "id": "cover",
+      "canvas": {
+        "w": 1920,
+        "h": 1080
+      },
+      "overflow": [],
+      "overlaps": [],
+      "body": {
+        "x": 80,
+        "y": 116.59375,
+        "w": 1760,
+        "h": 869.8125
+      },
+      "images": 0
+    },
+    {
+      "id": "about",
+      "canvas": {
+        "w": 1920,
+        "h": 1080
+      },
+      "overflow": [],
+      "overlaps": [],
+      "body": {
+        "x": 80,
+        "y": 319.53125,
+        "w": 1760,
+        "h": 666.875
+      },
+      "images": 0
+    },
+    {
+      "id": "contents",
+      "canvas": {
+        "w": 1920,
+        "h": 1080
+      },
+      "overflow": [],
+      "overlaps": [],
+      "body": {
+        "x": 80,
+        "y": 319.53125,
+        "w": 1760,
+        "h": 666.875
+      },
+      "images": 0
+    },
+    {
+      "id": "members-growth",
+      "canvas": {
+        "w": 1920,
+        "h": 1080
+      },
+      "overflow": [],
+      "overlaps": [],
+      "body": {
+        "x": 80,
+        "y": 116.59375,
+        "w": 1760,
+        "h": 869.8125
+      },
+      "images": 0
+    },
+    {
+      "id": "members-problem",
+      "canvas": {
+        "w": 1920,
+        "h": 1080
+      },
+      "overflow": [],
+      "overlaps": [],
+      "body": {
+        "x": 80,
+        "y": 273.53125,
+        "w": 1760,
+        "h": 670.375
+      },
+      "images": 0
+    },
+    {
+      "id": "economy",
+      "canvas": {
+        "w": 1920,
+        "h": 1080
+      },
+      "overflow": [],
+      "overlaps": [],
+      "body": {
+        "x": 80,
+        "y": 319.53125,
+        "w": 1760,
+        "h": 604.328125
+      },
+      "images": 1
+    },
+    {
+      "id": "members-results",
+      "canvas": {
+        "w": 1920,
+        "h": 1080
+      },
+      "overflow": [],
+      "overlaps": [],
+      "body": {
+        "x": 80,
+        "y": 319.53125,
+        "w": 1760,
+        "h": 573.78125
+      },
+      "images": 0
+    },
+    {
+      "id": "purchase",
+      "canvas": {
+        "w": 1920,
+        "h": 1080
+      },
+      "overflow": [],
+      "overlaps": [],
+      "body": {
+        "x": 80,
+        "y": 116.59375,
+        "w": 1760,
+        "h": 869.8125
+      },
+      "images": 0
+    },
+    {
+      "id": "purchase-problem",
+      "canvas": {
+        "w": 1920,
+        "h": 1080
+      },
+      "overflow": [],
+      "overlaps": [],
+      "body": {
+        "x": 80,
+        "y": 319.53125,
+        "w": 1760,
+        "h": 604.328125
+      },
+      "images": 0
+    },
+    {
+      "id": "purchase-policy",
+      "canvas": {
+        "w": 1920,
+        "h": 1080
+      },
+      "overflow": [],
+      "overlaps": [],
+      "body": {
+        "x": 80,
+        "y": 285.53125,
+        "w": 1760,
+        "h": 607.78125
+      },
+      "images": 2
+    },
+    {
+      "id": "purchase-results",
+      "canvas": {
+        "w": 1920,
+        "h": 1080
+      },
+      "overflow": [],
+      "overlaps": [],
+      "body": {
+        "x": 80,
+        "y": 289.53125,
+        "w": 1760,
+        "h": 573.234375
+      },
+      "images": 0
+    },
+    {
+      "id": "matching",
+      "canvas": {
+        "w": 1920,
+        "h": 1080
+      },
+      "overflow": [],
+      "overlaps": [],
+      "body": {
+        "x": 80,
+        "y": 116.59375,
+        "w": 1760,
+        "h": 869.8125
+      },
+      "images": 0
+    },
+    {
+      "id": "matching-decision",
+      "canvas": {
+        "w": 1920,
+        "h": 1080
+      },
+      "overflow": [],
+      "overlaps": [],
+      "body": {
+        "x": 80,
+        "y": 291.53125,
+        "w": 1760,
+        "h": 601.78125
+      },
+      "images": 0
+    },
+    {
+      "id": "matching-execution",
+      "canvas": {
+        "w": 1920,
+        "h": 1080
+      },
+      "overflow": [],
+      "overlaps": [],
+      "body": {
+        "x": 80,
+        "y": 291.53125,
+        "w": 1760,
+        "h": 601.78125
+      },
+      "images": 0
+    },
+    {
+      "id": "matching-journey",
+      "canvas": {
+        "w": 1920,
+        "h": 1080
+      },
+      "overflow": [],
+      "overlaps": [],
+      "body": {
+        "x": 80,
+        "y": 291.53125,
+        "w": 1760,
+        "h": 601.78125
+      },
+      "images": 0
+    }
+  ],
+  "modes": {
+    "readingCount": 15,
+    "printCount": 15,
+    "afterPrintCount": 15,
+    "slideCount": 1,
+    "keyboardNext": "#about",
+    "tocOpened": true,
+    "tocDestination": "#purchase-policy",
+    "tocClosed": true,
+    "sizes": [
+      {
+        "viewport": 1366,
+        "width": 1366,
+        "height": 768.375,
+        "ratio": 1.7777777777777777,
+        "pageOverflow": false
+      },
+      {
+        "viewport": 390,
+        "width": 390,
+        "height": 219.375,
+        "ratio": 1.7777777777777777,
+        "pageOverflow": false
+      }
+    ]
+  }
+}

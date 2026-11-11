@@ -1,0 +1,13 @@
+{
+  "jsSyntax": [
+    true,
+    true
+  ],
+  "verifiedImage": true,
+  "imageDialog": true,
+  "unverifiedFallback": true,
+  "legacyAlias": true,
+  "printFromSlide": true,
+  "printRestore": true,
+  "mobileAutoReading": true
+}
