@@ -1,8 +1,8 @@
 """Package active sources and explicitly verified images; never copy archive/reference data."""
 import argparse
-import json
 import shutil
 from pathlib import Path
+from check_locales import check
 
 root = Path(__file__).resolve().parent.parent
 parser = argparse.ArgumentParser()
@@ -12,8 +12,8 @@ out = args.output.resolve()
 if out.exists():
     raise SystemExit('Output already exists. Choose a new output directory to preserve existing files.')
 
-data = json.loads((root / 'js/portfolio-data.js').read_text().removeprefix('window.PORTFOLIO = ').strip().removesuffix(';'))
-files = {'index.html', 'css/style.css', 'js/main.js', 'js/portfolio-data.js', 'assets/coupang-favicon.png'}
+locales = check()
+files = {'index.html', 'css/style.css', 'js/main.js', 'js/portfolio-data.js', 'js/locales/ko.js', 'js/locales/en.js', 'assets/coupang-favicon.png'}
 
 def collect_verified_images(value):
     if isinstance(value, dict):
@@ -30,7 +30,8 @@ def collect_verified_images(value):
         for item in value:
             collect_verified_images(item)
 
-collect_verified_images(data['slides'])
+for data in locales:
+    collect_verified_images(data['slides'])
 for name in files:
     if not (root / name).is_file():
         raise SystemExit('Missing package input: ' + name)
