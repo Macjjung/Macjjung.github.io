@@ -97,9 +97,9 @@ button:focus-visible,a:focus-visible {
   background:transparent;
   border:1px solid var(--line);
   border-radius:6px;
-  width:112px;
+  width:92px;
   flex-shrink:0;
-  padding:7px 28px 7px 10px;
+  padding:7px 18px 7px 9px;
 }
 #language-select:focus-visible { outline:3px solid var(--secondary); outline-offset:3px; }
 .locale-draft-label { color:inherit; font-weight:600; }
@@ -1068,7 +1068,7 @@ dialog::backdrop {
     padding:0 12px;
     gap:10px;
   }
-  #language-select { font-size:11px; width:96px; padding-right:24px; padding-left:8px; }
+  #language-select { font-size:11px; width:82px; padding-right:16px; padding-left:8px; }
   .wordmark {
     min-width:0;
     font-size:12px;

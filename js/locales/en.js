@@ -336,9 +336,9 @@ window.PORTFOLIO_LOCALES.en = {
         {
           "image": {
             "verified": true,
-            "src": "assets/images/the-black-meeting-flow.png",
-            "alt": "The Black: match proposal → date suggestions → venue recommendations → coordination → confirmed date. Original Korean product screens.",
-            "caption": "Original Korean screens · Match proposal → Scheduling → Venue → Confirmation"
+            "src": "assets/images/the-black-meeting-flow-en.png",
+            "alt": "The Black: match introduction → time options → venue recommendation → scheduling → confirmed date. English annotations with Korean product screens.",
+            "caption": "Match introduction → Time options → Venue → Scheduling → Confirmed date"
           }
         }
       ],
@@ -466,9 +466,9 @@ window.PORTFOLIO_LOCALES.en = {
         {
           "image": {
             "verified": true,
-            "src": "assets/images/purchase-event-before.png",
-            "alt": "Before: promotion popup, eligibility details and delayed batch reward grants. Korean source visual, partly AI-edited.",
-            "caption": "Korean source · Rewards granted after the promotion"
+            "src": "assets/images/purchase-event-before-en.png",
+            "alt": "Before: promotion popup, eligibility details and delayed batch reward grants. English annotations with Korean product screens; partly AI-edited.",
+            "caption": "Rewards granted after the promotion"
           },
           "label": "BEFORE",
           "title": "Wait until the promotion ends",
@@ -479,9 +479,9 @@ window.PORTFOLIO_LOCALES.en = {
         {
           "image": {
             "verified": true,
-            "src": "assets/images/purchase-event-after.png",
-            "alt": "After: promotion entry, progress, reward tiers and self-service claiming. Korean source visual, partly AI-edited.",
-            "caption": "Korean source · Earned rewards available to claim"
+            "src": "assets/images/purchase-event-after-en.png",
+            "alt": "After: promotion entry, progress, reward tiers and self-service claiming. English annotations with Korean product screens; partly AI-edited.",
+            "caption": "Earned rewards available to claim"
           },
           "label": "AFTER",
           "title": "Check progress and claim",
@@ -498,7 +498,7 @@ window.PORTFOLIO_LOCALES.en = {
       ],
       "notes": [
         "Reward tiers also changed: lower-tier rewards were reduced; higher-tier benefits stayed near prior levels. A reduction in total rewards paid is not verified.",
-        "Source visuals are in Korean and were partly edited with AI to aid explanation."
+        "English annotations accompany Korean product screens. Visuals were partly edited with AI to aid explanation."
       ],
       "uxDecisions": [
         [
@@ -940,5 +940,5 @@ window.PORTFOLIO_LOCALES.en = {
       "context": "Gold Spoon · Aug–Oct 2026 · CPO"
     }
   ],
-  "sourceRevision": "d23032776aef8ec36f585160cc209510a9a284901f5294cb91627271a64aed78"
+  "sourceRevision": "401acdb89f8d88539919e79745ca305a88e942398d073bb33d8c75a58b939ab1"
 };
