@@ -232,7 +232,7 @@ window.PORTFOLIO_LOCALES.ko = {
     },
     {
       "id": "members-problem",
-      "title": "무료재화 사용과 ‘돈을 낼 이유’를 먼저 설계했다",
+      "title": "무료재화 사용 촉진과 유료 구매 가치 설계",
       "variant": "strategy-decisions",
       "group": "01 · 더멤버스 사업·제품 개선",
       "stage": "문제와 제품 판단",
@@ -447,7 +447,7 @@ window.PORTFOLIO_LOCALES.ko = {
     },
     {
       "id": "purchase-policy",
-      "title": "달성 현황·다음 보상·수령 버튼을 구매 흐름에 연결했다",
+      "title": "달성 현황·다음 보상·직접 수령을 연결한 구매 UX",
       "variant": "purchase-execution",
       "group": "02 · 더멤버스 구매 이벤트 개선",
       "stage": "UX 실행 · AS-IS / TO-BE",
@@ -564,7 +564,7 @@ window.PORTFOLIO_LOCALES.ko = {
     },
     {
       "id": "matching-decision",
-      "title": "기존 배정은 카드별 반응 차이를 충분히 반영하지 못했다",
+      "title": "카드별 반응 차이를 충분히 반영하지 못한 기존 배정의 한계",
       "variant": "matching-problem",
       "group": "03 · 골드스푼 소개 로직 개편",
       "stage": "문제 정의 · 개편 판단",

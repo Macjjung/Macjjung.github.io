@@ -237,7 +237,7 @@ window.PORTFOLIO_LOCALES.en = {
     },
     {
       "id": "members-problem",
-      "title": "Before scaling acquisition, give customers a reason to pay",
+      "title": "Free-ticket usage and the customer value proposition",
       "variant": "strategy-decisions",
       "group": "01 · The Members · Business growth",
       "stage": "Problem & product judgment",
@@ -457,7 +457,7 @@ window.PORTFOLIO_LOCALES.en = {
     },
     {
       "id": "purchase-policy",
-      "title": "Bring progress, the next reward and claiming into the purchase flow",
+      "title": "Purchase UX: progress, next rewards and reward claims",
       "variant": "purchase-execution",
       "group": "02 · The Members · Purchase promotions",
       "stage": "UX execution · Before / After",
@@ -577,7 +577,7 @@ window.PORTFOLIO_LOCALES.en = {
     },
     {
       "id": "matching-decision",
-      "title": "Allocation did not fully account for differences in response",
+      "title": "Limitations of allocation without sufficient response differentiation",
       "variant": "matching-problem",
       "group": "03 · Gold Spoon · Recommendations",
       "stage": "Problem definition · Allocation decision",
@@ -940,5 +940,5 @@ window.PORTFOLIO_LOCALES.en = {
       "context": "Gold Spoon · Aug–Oct 2026 · CPO"
     }
   ],
-  "sourceRevision": "940ab83d72c228196650b00e8bbe055f5e715aec70bdeb32cc5227633da008c4"
+  "sourceRevision": "d23032776aef8ec36f585160cc209510a9a284901f5294cb91627271a64aed78"
 };
