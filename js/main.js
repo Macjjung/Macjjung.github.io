@@ -70,9 +70,8 @@
     if(!renderers[s.variant]) throw new Error('Unknown slide variant: '+s.variant);
     return `<article class="slide variant-${s.variant}" lang="${s.translationStatus === 'pending' ? 'ko' : locale}" id="${s.id}" aria-label="${i+1} / ${slides.length}"><div class="slide-canvas"><header class="slide-header"><span>${esc(profile.name)} / Product Manager</span><span>${special?'PORTFOLIO 2026':esc(s.group)}${status==='draft'?` <span class="locale-draft-label" lang="${locale}"> / ${esc(ui.draftLabel)}</span>`:''}</span></header>${special?'':`<div class="slide-heading">${tag(s.stage || 'INTRODUCTION')}<h1>${lines(s.title)}</h1><p class="subtitle">${esc(s.subtitle)}</p></div>`}<div class="slide-body">${renderers[s.variant](s)}</div>${s.notes?`<aside class="slide-notes">${s.notes.map(n=>`<p>${esc(n)}</p>`).join('')}</aside>`:''}<footer class="slide-footer"><span>${s.variant==='project'?esc(copy.navigation01):esc(s.group)}</span><span>${String(i+1).padStart(2,'0')} / ${slides.length}</span></footer></div></article>`;
   }
-  const mobile=matchMedia('(max-width:700px)');
   const initialMode=new URLSearchParams(location.search).get('view');
-  let reading=initialMode==='reading'||(initialMode!=='slides'&&mobile.matches),manualMode=Boolean(initialMode),current=0,printMode=null,pointer=null,lastWheel=0;
+  let reading=initialMode!=='slides',current=0,printMode=null,pointer=null,lastWheel=0;
   const stage=$('#stage'),content=$('#slide-content');
   function fit(){
     // Reading mode fits one whole slide beneath the sticky toolbar, with breathing room.
@@ -129,8 +128,7 @@
   document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>b.closest('dialog').close());
   document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target!==d)return;const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}));
   $('#toc-list').onclick=e=>{if(e.target.closest('a')){$('#toc-dialog').close();content.focus({preventScroll:true});}};
-  $('#mode-toggle').onclick=()=>{manualMode=true;reading=!reading;render();route();};
-  mobile.addEventListener('change',()=>{if(!manualMode){reading=mobile.matches;render();route();}});
+  $('#mode-toggle').onclick=()=>{reading=!reading;render();route();};
   ['previous','side-previous'].forEach(id=>$('#'+id).onclick=()=>go(current-1));
   ['next','side-next'].forEach(id=>$('#'+id).onclick=()=>go(current+1));
   document.addEventListener('keydown',e=>{if(reading||document.querySelector('dialog[open]')||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();go(e.key==='Home'?0:e.key==='End'?slides.length-1:current+(e.key==='ArrowRight'?1:-1));}});

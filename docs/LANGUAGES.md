@@ -19,7 +19,7 @@
 - 한국어: `index.html?lang=ko#cover`
 - 기본 / 영어: `index.html?lang=en#cover`
 - 현재 장과 보기 모드를 유지한 채 상단 언어 선택 메뉴로 전환한다.
-- `view=reading`은 이어 읽기, `view=slides`는 한 장 보기다. 생략하면 기존 화면 크기에 따른 기본 모드를 사용한다.
+- `view=reading`은 이어 읽기, `view=slides`는 한 장 보기다. 생략하면 화면 크기와 관계없이 Read all(이어 읽기)로 시작한다. 창 크기를 바꿔도 선택한 보기 모드를 유지한다.
 - lang 생략 또는 미지원 lang 값은 영어로 처리한다. 한국어는 lang=ko로 명시한다. 로컬 HTTP 서버와 파일 직접 열기 모두 사용할 수 있도록 일반 script 파일을 순서대로 읽는다.
 
 ## 영어 번역 순서
