@@ -1,4 +1,3 @@
-// English content; factual baseline and revision tracked against ko.js.
 window.PORTFOLIO_LOCALES = window.PORTFOLIO_LOCALES || {};
 window.PORTFOLIO_LOCALES.en = {
   "locale": "en",
@@ -38,24 +37,22 @@ window.PORTFOLIO_LOCALES.en = {
     "shared12": "Period A: ",
     "shared13": "%; period B: ",
     "shared14": "%; shared scale from 0 to 100%",
-    "about01": "Career progression ",
-    "about02": "Expanding scope",
+    "about01": "Career by company ",
+    "about02": "Most recent first",
     "about03": "Selected experience",
     "about04": "The following cases connect product decisions to changes in policy, purchase experience and recommendations—and to business outcomes.",
     "careerSummary01": "Career foundation",
     "careerSummary02": "How I would contribute",
-    "strategyDecisions01": "CAC ",
-    "strategyDecisions02": " vs. 120-day customer spend ",
-    "dualExecution01": "Preserve the first experience; reduce free supply",
+    "dualExecution01": "Preserve the first experience; adjust supply and expiry",
     "dualExecution02": "Allocation baseline",
-    "dualExecution03": "Average tickets needed",
-    "dualExecution04": "for the first contact unlock",
-    "dualExecution05": "Policy changes",
-    "dualExecution06": "Signup tickets: ",
-    "dualExecution07": "roughly halved",
-    "dualExecution08": "Bonus tickets: ",
-    "dualExecution09": "7 / 30 / 90-day",
-    "dualExecution10": " expiry",
+    "dualExecution03": "First accepted like",
+    "dualExecution04": "~30 tickets",
+    "dualExecution05": "New-user allocation",
+    "dualExecution06": "Women: ",
+    "dualExecution07": "100 → 30 tickets",
+    "dualExecution08": "Men: ",
+    "dualExecution09": "50 → 30 tickets",
+    "dualExecution10": "",
     "dualExecution11": "Offer guaranteed in-person dates for customers seeking a serious relationship",
     "dualExecution12": "Repositioning",
     "dualExecution13": "From profile browsing to",
@@ -78,9 +75,6 @@ window.PORTFOLIO_LOCALES.en = {
     "membersResults10": "Customer spend per user",
     "membersResults11": "₩7,562",
     "membersResults12": "₩19,730",
-    "membersResults13": "In the month the policy launched · Apr → May 2024",
-    "membersResults14": "Monthly customer spend",
-    "membersResults15": "May includes days before and after the signup change.",
     "membersResults16": "The Black · Customer spend",
     "membersResults17": "₩8–10M per month",
     "purchaseProblem01": "Hypothesis",
@@ -165,19 +159,29 @@ window.PORTFOLIO_LOCALES.en = {
       "subtitle": "I moved from software engineering into product and business ownership. As CPO at TripleComma, I now own product strategy and the roadmap.",
       "journey": [
         [
-          "2023–Present",
-          "CEO Office → Current CPO",
-          "B2B commerce operations and data\nProduct strategy, monetization and recommendations"
+          "Feb 2024–Present",
+          "TripleComma",
+          "Lead PO → Current CPO · Strategy & roadmap"
         ],
         [
-          "2020–2023",
-          "Lead PM / CSO → PO",
-          "Launched hotel ordering and operations products\nBuilt new services and improved payment UX"
+          "Aug 2023–Feb 2024",
+          "BuyingSquare · CEO Office Staff",
+          "B2B commerce operations and data"
         ],
         [
-          "2016–2020",
-          "Engineer → Engineering Lead",
-          "Payment and hardware integrations\nDelivered ~20 web and mobile projects"
+          "Jan 2022–Jun 2023",
+          "W Club · Product Owner",
+          "New services and payment UX"
+        ],
+        [
+          "Feb 2020–Jul 2021",
+          "SangsangSoft · Lead PM / CSO",
+          "Hotel ordering and operations products"
+        ],
+        [
+          "Sep 2016–Feb 2020",
+          "MediaSolution → Raymon",
+          "Engineer → Engineering Lead · Payments & hardware"
         ]
       ],
       "proofs": [
@@ -247,9 +251,9 @@ window.PORTFOLIO_LOCALES.en = {
       ],
       "businessContext": {
         "label": "Business priority",
-        "acquisitionCost": "~₩52,000",
-        "revenue120": "~₩48,000/user",
-        "decision": "Increase customer spend per acquired user"
+        "metric": "Jan 2024 cohort · 90-day customer spend/CAC",
+        "value": "0.43×",
+        "decision": "Improve early acquisition-cost recovery"
       },
       "strategies": [
         {
@@ -260,17 +264,17 @@ window.PORTFOLIO_LOCALES.en = {
             {
               "stage": "Problem",
               "title": "Tickets accumulated;\nlittle reason to use or buy",
-              "description": "Excess free supply reduced\nthe need to purchase paid tickets."
+              "description": "Free supply was ~91% of ticket usage.\nUnused free tickets never expired."
             },
             {
               "stage": "Hypothesis",
-              "title": "Expiry could prompt usage\nand later purchases",
-              "description": "Size free allocations around\nthe core customer experience."
+              "title": "A first accepted like could\nmotivate a contact-unlock purchase",
+              "description": "Men typically reached first acceptance\nafter sending 5–6 likes."
             },
             {
               "stage": "Decision",
-              "title": "Keep the first contact unlock;\nchange supply and expiry",
-              "description": "Roughly halve signup tickets.\nSet 7/30/90-day bonus-ticket expiry."
+              "title": "Fund the first acceptance;\nadjust supply and expiry",
+              "description": "Set the free allocation at ~30 tickets.\nApply 7/30/90-day bonus-ticket expiry."
             }
           ]
         },
@@ -305,13 +309,13 @@ window.PORTFOLIO_LOCALES.en = {
       "variant": "dual-execution",
       "group": "01 · The Members · Business growth",
       "stage": "Execution",
-      "subtitle": "I reduced free allocations around the first contact unlock and turned “serious dating” into a paid offer with a date guarantee.",
+      "subtitle": "I sized free tickets for a first accepted like and turned demand for serious relationships into a paid offer with a date guarantee.",
       "panels": [
         {
           "results": {
-            "title": "Observed outcomes",
+            "title": "Usage and monetization after the policy change",
             "usage": {
-              "label": "Used within 7 days",
+              "label": "7-day free-ticket usage",
               "before": 43,
               "after": 71,
               "change": "+28 pp",
@@ -329,8 +333,13 @@ window.PORTFOLIO_LOCALES.en = {
                 "value": "−28.1%"
               }
             ],
-            "period": "A: Nov 1, 2023–Apr 30, 2024 → B: May 1–Dec 31, 2024",
-            "note": "Usage = share of issued free tickets used within 7 days. Per-MAU comparisons are observational."
+            "period": "180 days before and after · Ticket volumes normalized by MAU",
+            "note": ""
+          },
+          "expiry": {
+            "label": "Introduce expiry",
+            "title": "No expiry → 7 / 30 / 90 days",
+            "description": "Time limits on bonus tickets encourage earlier use"
           }
         },
         {
@@ -343,7 +352,7 @@ window.PORTFOLIO_LOCALES.en = {
         }
       ],
       "notes": [
-        "Signup allocation changed on May 7, 2024. Bonus-ticket expiry was set at 7/30/90 days; its introduction date is separate from the signup change."
+        "Policy launched May 7, 2024 · 7/30/90-day expiry by reward purpose · New issues only; existing balances protected."
       ],
       "translationStatus": "ready"
     },
@@ -353,7 +362,7 @@ window.PORTFOLIO_LOCALES.en = {
       "variant": "members-results",
       "group": "01 · The Members · Business growth",
       "stage": "Results",
-      "subtitle": "Purchase metrics in the month the policy launched and customer spend on The Black supported the business. Sixfold growth reflects the full period, across initiatives.",
+      "subtitle": "Ticket-policy changes, customer-led positioning and The Black accompanied nearly 6× monthly customer spend and profitability during my tenure.",
       "chart": {
         "title": "Business-wide · Monthly customer spend",
         "unit": "KRW",
@@ -379,9 +388,32 @@ window.PORTFOLIO_LOCALES.en = {
       },
       "notes": [
         "Business-wide endpoints: Feb 2024 → Jul 2026. Multiple product and business initiatives contributed; growth is not attributable to one policy or product.",
-        "MAU × ARPU ≈ monthly customer spend (displayed ARPU is rounded). Changes in the launch month are observational; spend on The Black is not proven net incremental customer spend."
+        "MAU × ARPU ≈ monthly customer spend (rounded ARPU). Spend/CAC excludes costs beyond acquisition; The Black spend is not proven net incremental spend."
       ],
-      "translationStatus": "ready"
+      "translationStatus": "ready",
+      "policyComparison": {
+        "title": "Free-ticket policy · Before / after in 2024",
+        "headers": [
+          "Metric",
+          "Before · Jan",
+          "After · Jun"
+        ],
+        "rows": [
+          [
+            "90-day spend/CAC¹",
+            "0.43×",
+            "1.00×"
+          ],
+          [
+            "Customer purchase rate²",
+            "31.6%",
+            "38.8%"
+          ]
+        ],
+        "notes": [
+          "Launched May 7 · ¹90 days per cohort / ²One month each"
+        ]
+      }
     },
     {
       "id": "purchase",
@@ -557,7 +589,7 @@ window.PORTFOLIO_LOCALES.en = {
       "subtitle": "",
       "projectNumber": "03",
       "skill": "Response-led recommendation & allocation",
-      "summary": "I analyzed response differences, revised profile exposure caps and lifted exclusions from older likes. Based on the first release, I am leading R&D on allocation using individual expected outcomes.",
+      "summary": "I analyzed response differences across profile cards and adjusted exposure allocation, increasing likes per impression by 11.2%.",
       "meta": [
         [
           "Period",
@@ -940,5 +972,5 @@ window.PORTFOLIO_LOCALES.en = {
       "context": "Gold Spoon · Aug–Oct 2026 · CPO"
     }
   ],
-  "sourceRevision": "401acdb89f8d88539919e79745ca305a88e942398d073bb33d8c75a58b939ab1"
+  "sourceRevision": "5ad96d6bf846cd7d17be8faedc3218f25f787d8f0cdbd649a834ad28450eba44"
 };

@@ -37,24 +37,22 @@ window.PORTFOLIO_LOCALES.ko = {
     "shared12": "A구간 ",
     "shared13": "%, B구간 ",
     "shared14": "%, 0부터 100% 동일 척도",
-    "about01": "커리어 흐름 ",
-    "about02": "시간에 따른 역할의 확장",
+    "about01": "회사별 경력 흐름 ",
+    "about02": "최신순",
     "about03": "영역별 주요 경험",
     "about04": "다음 세 사례에서는 제품 판단이 정책·경험·배정의 변화와 사업 지표로 이어지는 과정을 보여드립니다.",
     "careerSummary01": "경력의 기반",
     "careerSummary02": "기여하고 싶은 일",
-    "strategyDecisions01": "고객 획득비 ",
-    "strategyDecisions02": "  vs  가입 120일 누적 매출 ",
-    "dualExecution01": "핵심 경험은 남기고, 무료 공급은 축소",
+    "dualExecution01": "핵심 경험은 지키고, 지급량·사용 기한은 조정",
     "dualExecution02": "지급 기준",
-    "dualExecution03": "첫 연락처 확인에 필요한",
-    "dualExecution04": "평균 티켓 수량",
-    "dualExecution05": "정책 변경",
-    "dualExecution06": "가입 무료티켓 ",
-    "dualExecution07": "약 절반으로",
-    "dualExecution08": "보너스 재화 ",
-    "dualExecution09": "7·30·90일",
-    "dualExecution10": " 유효기간",
+    "dualExecution03": "첫 수락 경험에 필요한",
+    "dualExecution04": "약 30티켓",
+    "dualExecution05": "신규 지급량 조정",
+    "dualExecution06": "여성 ",
+    "dualExecution07": "100 → 30티켓",
+    "dualExecution08": "남성 ",
+    "dualExecution09": "50 → 30티켓",
+    "dualExecution10": "",
     "dualExecution11": "‘진지한 만남’을 실제 구매 가치로",
     "dualExecution12": "포지셔닝 전환",
     "dualExecution13": "프로필 탐색 앱에서",
@@ -77,9 +75,6 @@ window.PORTFOLIO_LOCALES.ko = {
     "membersResults10": "사용자당 매출",
     "membersResults11": "7,562원",
     "membersResults12": "19,730원",
-    "membersResults13": "무료 재화 정책 적용 월 · 2024.04 → 05",
-    "membersResults14": "월 결제액",
-    "membersResults15": "5월은 가입 지급량 변경 전후가 섞인 기간",
     "membersResults16": "더 블랙 · 상품 매출",
     "membersResults17": "월 800만~1,000만 원",
     "purchaseProblem01": "개선 가설",
@@ -163,19 +158,29 @@ window.PORTFOLIO_LOCALES.ko = {
       "subtitle": "소프트웨어 개발에서 제품·사업 책임으로 역할을 넓혔습니다. 현재 트리플콤마 CPO로 제품 전략과 로드맵을 담당합니다.",
       "journey": [
         [
-          "2023–현재",
-          "CEO Office → 현재 CPO",
-          "B2B 커머스 운영·데이터 협업\n제품 전략·수익화·추천 개선"
+          "2024.02–현재",
+          "트리플콤마",
+          "Lead PO → 현재 CPO · 제품 전략·로드맵"
         ],
         [
-          "2020–2023",
-          "Lead PM / CSO → PO",
-          "호텔 주문·운영 제품 출시\n신규 서비스와 결제 경험 개선"
+          "2023.08–2024.02",
+          "바잉스퀘어 · CEO Office Staff",
+          "B2B 커머스 운영·데이터 협업"
         ],
         [
-          "2016–2020",
-          "개발 → 개발팀 리드",
-          "결제·하드웨어 연동 개발\n웹·모바일 약 20개 프로젝트 수행"
+          "2022.01–2023.06",
+          "더블유클럽 · Product Owner",
+          "신규 서비스·결제 경험 개선"
+        ],
+        [
+          "2020.02–2021.07",
+          "상상소프트 · Lead PM / CSO",
+          "호텔 주문·운영 제품 출시"
+        ],
+        [
+          "2016.09–2020.02",
+          "미디어솔루션 → 레이먼",
+          "개발 → 개발팀 리드 · 결제·하드웨어 연동"
         ]
       ],
       "proofs": [
@@ -242,9 +247,9 @@ window.PORTFOLIO_LOCALES.ko = {
       ],
       "businessContext": {
         "label": "사업의 우선순위",
-        "acquisitionCost": "약 5.2만 원",
-        "revenue120": "약 4.8만 원/인",
-        "decision": "고객당 매출 회수 구조 개선"
+        "metric": "2024년 1월 코호트 · 90일 매출/CAC",
+        "value": "0.43배",
+        "decision": "고객당 초기 매출 회수 구조 개선"
       },
       "strategies": [
         {
@@ -255,17 +260,17 @@ window.PORTFOLIO_LOCALES.ko = {
             {
               "stage": "문제 정의",
               "title": "재화는 쌓이지만\n사용·구매로 이어질 동기는 부족",
-              "description": "누적되는 무료재화와 과도한 공급이\n유료 구매 필요성을 낮추는 구조"
+              "description": "무료 지급량이 재화 소모량의 약 91%\n유효기간 없이 장기 축적되는 구조"
             },
             {
               "stage": "개선 가설",
-              "title": "유효기간이 사용을 촉진하면\n이후 구매로 이어질 것",
-              "description": "무료 공급량도 핵심 경험에\n필요한 수준으로 조정"
+              "title": "첫 수락을 경험하면\n번호 오픈의 구매 동기가 생길 것",
+              "description": "남성 고객은 일반적으로\n호감 표현 5~6회 이후 첫 수락 경험"
             },
             {
               "stage": "제품 결정",
-              "title": "첫 연락처 확인 경험은 남기고\n지급량·유효기간 조정",
-              "description": "가입 지급량 약 절반으로 조정\n보너스 재화에 7·30·90일 유효기간"
+              "title": "첫 수락에 필요한 무료량을 남기고\n지급량·유효기간 조정",
+              "description": "약 30티켓을 무료 지급 기준으로 설정\n보너스 재화에 7·30·90일 유효기간"
             }
           ]
         },
@@ -299,13 +304,13 @@ window.PORTFOLIO_LOCALES.ko = {
       "variant": "dual-execution",
       "group": "01 · 더멤버스 사업·제품 개선",
       "stage": "실행 내용",
-      "subtitle": "무료량은 첫 연락처 확인 경험을 기준으로 줄이고, “진지한 만남”은 미성사 시 환급하는 유료 상품으로 구체화했습니다.",
+      "subtitle": "무료량은 첫 수락 경험을 기준으로 설계하고, “진지한 만남”은 미성사 시 환급하는 유료 상품으로 구체화했습니다.",
       "panels": [
         {
           "results": {
-            "title": "핵심 성과",
+            "title": "정책 적용 후 사용·수익화 변화",
             "usage": {
-              "label": "7일 이내 사용률",
+              "label": "무료재화 7일 내 사용률",
               "before": 43,
               "after": 71,
               "change": "+28%p",
@@ -323,8 +328,13 @@ window.PORTFOLIO_LOCALES.ko = {
                 "value": "−28.1%"
               }
             ],
-            "period": "A 2023.11.01–2024.04.30 → B 2024.05.01–12.31",
-            "note": "MAU 증가를 고려한 비교 · 개별 정책의 인과효과와 구분"
+            "period": "정책 적용 전후 180일 · MAU 증가를 고려한 비교",
+            "note": ""
+          },
+          "expiry": {
+            "label": "유효기간 도입",
+            "title": "무기한 누적 → 7·30·90일 내 사용",
+            "description": "보너스 재화에 사용 기한을 설정해 빠른 사용을 유도"
           }
         },
         {
@@ -337,7 +347,7 @@ window.PORTFOLIO_LOCALES.ko = {
         }
       ],
       "notes": [
-        "가입 지급량 조정: 2024.05.07. 보너스 재화 유효기간은 7·30·90일로 도입했으며, 유효기간 도입일과 가입 지급량 변경일은 구분합니다."
+        "2024.05.07 정책 적용 · 보상 목적별 유효기간 7·30·90일 · 기존 보유분 보호, 신규 지급분부터 적용."
       ]
     },
     {
@@ -346,7 +356,7 @@ window.PORTFOLIO_LOCALES.ko = {
       "variant": "members-results",
       "group": "01 · 더멤버스 사업·제품 개선",
       "stage": "결과",
-      "subtitle": "무료재화 정책 적용 월의 구매 변화와 신규 상품 매출을 확인했습니다. 약 6배 성장은 담당 기간 사업 전체의 결과입니다.",
+      "subtitle": "재화 구조 개선과 고객 니즈에 맞춘 포지셔닝·더 블랙 상품화를 추진했고, 담당 기간 월 결제액 약 6배 성장과 흑자전환을 이뤘습니다.",
       "chart": {
         "title": "사업 전체 · 월 결제액",
         "unit": "원",
@@ -372,8 +382,31 @@ window.PORTFOLIO_LOCALES.ko = {
       },
       "notes": [
         "2024.02 → 2026.07 사업 전체의 두 시점 비교. 여러 제품·사업 활동의 결과이며 특정 정책·상품의 단독 효과가 아닙니다.",
-        "MAU × ARPU ≈ 월 결제액(표시 ARPU 반올림). 정책 적용 월의 변화는 인과효과로, 더 블랙 매출은 순증 매출로 단정하지 않습니다."
-      ]
+        "MAU × ARPU ≈ 월 결제액(표시 ARPU 반올림). 매출/CAC는 이익 기준이 아니며, 더 블랙 매출은 순증 매출로 단정하지 않습니다."
+      ],
+      "policyComparison": {
+        "title": "무료재화 정책 적용 전후 · 2024년",
+        "headers": [
+          "구분",
+          "적용 전 · 1월",
+          "적용 후 · 6월"
+        ],
+        "rows": [
+          [
+            "90일 매출/CAC¹",
+            "0.43배",
+            "1.00배"
+          ],
+          [
+            "고객 구매 전환율²",
+            "31.6%",
+            "38.8%"
+          ]
+        ],
+        "notes": [
+          "2024.05.07 적용 · ¹각 코호트의 90일 매출 / ²각 월 한 달"
+        ]
+      }
     },
     {
       "id": "purchase",
@@ -545,7 +578,7 @@ window.PORTFOLIO_LOCALES.ko = {
       "subtitle": "",
       "projectNumber": "03",
       "skill": "반응 데이터 기반 추천·배정 최적화",
-      "summary": "골드스푼의 소개 카드에서 반응 차이를 분석하고, 노출 상한과 지난 호감 기록을 개선했습니다. 1차 결과를 바탕으로 사용자별 기대값을 높이는 후속 R&D를 주도하고 있습니다.",
+      "summary": "소개카드의 반응 차이를 분석해 노출 배분을 조정하고, 호감 전송률을 11.2% 높였습니다.",
       "meta": [
         [
           "담당 기간",

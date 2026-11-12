@@ -483,17 +483,19 @@ button:focus-visible,a:focus-visible {
   color:var(--secondary);
 }
 /* Profile and contents. */
+.variant-about .slide-header { margin-bottom:24px; }
+.variant-about .slide-heading { margin-bottom:24px; }
 .variant-about .slide-body { display:flex; flex-direction:column; }
 .career-columns { flex:1; min-height:0; display:grid; grid-template-columns:.85fr 1.35fr; gap:48px; }
 .career-history,.career-expertise { display:flex; flex-direction:column; min-height:0; }
 .career-section-title { margin-bottom:18px; }
 .career-section-title span { font-size:20px; font-weight:400; color:var(--muted); margin-left:16px; }
-.career-journey { flex:1; min-height:0; padding:24px 36px; border-radius:14px; background:var(--tint); display:flex; flex-direction:column; justify-content:space-around; }
-.career-journey section { position:relative; margin-left:8px; padding:10px 0 10px 30px; border-left:2px solid #B3D4F6; }
+.career-journey { flex:1; min-height:0; padding:16px 26px; border-radius:14px; background:var(--tint); display:flex; flex-direction:column; justify-content:space-around; }
+.career-journey section { position:relative; margin-left:8px; padding:3px 0 3px 24px; border-left:2px solid #B3D4F6; }
 .career-journey section:before { content:''; position:absolute; left:-7px; top:22px; width:12px; height:12px; border-radius:50%; background:var(--secondary); }
-.career-journey .caption { font-size:21px; color:var(--secondary); }
-.career-journey h3 { font-size:25px; margin:8px 0; }
-.career-journey p { font-size:21px; line-height:1.5; color:var(--muted); }
+.career-journey .caption { font-size:18px; line-height:1.25; color:var(--secondary); }
+.career-journey h3 { font-size:23px; margin:4px 0; }
+.career-journey p { font-size:18px; line-height:1.4; color:var(--muted); }
 .career-expertise { border-left:1px solid var(--line); padding-left:40px; }
 .career-proof { flex:1; min-height:0; display:flex; flex-direction:column; gap:16px; }
 .career-proof section { flex:1; padding:24px 30px; border:1px solid var(--line); border-radius:12px; background:white; }
@@ -606,7 +608,18 @@ button:focus-visible,a:focus-visible {
 .strategy-panel .evidence { flex:1; min-height:0; justify-content:center; gap:8px; }
 .strategy-panel .image-open { flex:1; min-height:0; overflow:hidden; }
 .strategy-panel .evidence img { display:block; width:100%; height:100%; max-height:100%; object-fit:contain; }
-/* Page 6: confirmed free-currency results replace only the left image space. */
+/* Page 6: connect expiry policy to the observed seven-day usage metric. */
+.variant-dual-execution .slide-header { margin-bottom:24px; }
+.variant-dual-execution .slide-heading { margin-bottom:24px; }
+.variant-dual-execution .strategy-panel { padding:28px; }
+.variant-dual-execution .strategy-heading { padding-bottom:14px; }
+.strategy-panel:first-child .execution-summary { margin:16px 0; min-height:84px; }
+.currency-expiry { border-left:3px solid var(--secondary); padding:6px 0 6px 16px; margin-bottom:14px; }
+.currency-expiry p:first-child { display:flex; align-items:baseline; gap:16px; }
+.currency-expiry span { color:var(--secondary); font-size:18px; font-weight:600; }
+.currency-expiry strong { font-size:20px; font-weight:650; }
+.currency-expiry p+p { font-size:18px; color:var(--muted); line-height:1.4; margin-top:5px; }
+
 .currency-results { flex:1; min-height:0; display:flex; flex-direction:column; gap:8px; }
 .currency-results>h3 { font-size:21px; line-height:1.25; }
 .currency-metrics { display:grid; grid-template-columns:1.22fr 1fr 1fr; gap:12px; flex:1; min-height:0; }
@@ -626,7 +639,7 @@ button:focus-visible,a:focus-visible {
 .currency-metric:last-child strong { color:var(--ink); }
 .currency-period { font-size:18px; line-height:1.4; color:var(--muted); }
 /* Quantitative results: the chart scale is data-driven, not decorative. */
-.growth-layout { display:grid; grid-template-columns:1.15fr 1fr; gap:32px; height:100%; }
+.growth-layout { display:grid; grid-template-columns:1.5fr 1fr; gap:32px; height:100%; }
 .growth-main { background:white; border:1px solid var(--line); padding:36px; border-radius:14px; display:flex; flex-direction:column;}
 .result-lead { display:flex; align-items:center; justify-content:space-between; gap:24px; margin-bottom:20px; }
 .result-lead>div { display:flex; align-items:center; gap:24px; }
@@ -688,7 +701,7 @@ button:focus-visible,a:focus-visible {
   margin-top:20px;
   font-size:20px;
 }
-.growth-detail { display:flex; flex-direction:column; gap:18px; }
+.growth-detail { display:flex; flex-direction:column; gap:12px; }
 .growth-detail>section { padding:24px 32px; border-radius:12px; border:1px solid var(--line);}
 .growth-detail h3 { margin:8px 0; }
 .growth-detail .caption { font-size:20px; line-height:1.4; }
@@ -699,11 +712,21 @@ button:focus-visible,a:focus-visible {
 .growth-factors p { display:flex; align-items:center; gap:12px; font-size:24px; line-height:1.4; }
 .growth-factors p>span:not(.arrow),.growth-factors strong { white-space:nowrap; }
 .growth-factors .arrow { font-size:22px; }
-.growth-factors strong { color:var(--secondary); }
-.policy-metrics { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin:12px 0 16px; }
-.policy-metrics>div+div { border-left:1px solid var(--line); padding-left:24px; }
-.policy-metrics h3 { font-size:21px; margin:0 0 6px; }
-.policy-metrics strong { display:block; font-size:32px; line-height:1.15; color:var(--secondary); }
+.growth-factors strong { color:var(--primary); }
+.growth-detail .product-result { display:flex; justify-content:space-between; align-items:center; gap:24px; }
+.product-result h3 { margin:0; color:var(--primary); }
+/* Secondary policy evidence: neutral table keeps the business-growth chart primary. */
+.growth-detail .policy-comparison { background:#fff; padding:22px 32px; }
+.policy-comparison .policy-comparison-table { table-layout:fixed; margin:12px 0; font-size:21px; }
+.policy-comparison-table th,.policy-comparison-table td { padding:9px 0; line-height:1.4; background:transparent; }
+.policy-comparison-table thead th { font-size:19px; font-weight:500; color:var(--muted); }
+.policy-comparison-table th:first-child { width:52%; text-align:left; }
+.policy-comparison-table tbody th { font-size:21px; font-weight:400; color:var(--ink); }
+.policy-comparison-table th:not(:first-child),.policy-comparison-table td { text-align:right; }
+.policy-comparison-table td { color:var(--muted); font-weight:400; }
+.policy-comparison-table td strong { color:var(--primary); font-weight:700; }
+.policy-comparison-table thead th:last-child { color:var(--primary); font-weight:700; }
+.policy-comparison-notes { font-size:19px; line-height:1.4; color:var(--muted); }
 table {
   width:100%;
   border-collapse:collapse;
