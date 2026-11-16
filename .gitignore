@@ -10,6 +10,7 @@ node_modules/
 assets/private-five/
 
 # Internal references and local verification/export artifacts
+artifacts/
 docs/references/*.pdf
 output/resume/
 tmp/

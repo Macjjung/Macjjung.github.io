@@ -6,12 +6,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-def read_locale(lang):
-    source = (ROOT / f'js/locales/{lang}.js').read_text()
+def read_locale(lang, root=ROOT):
+    source = (root / f'js/locales/{lang}.js').read_text()
     return json.loads(source.split(f'window.PORTFOLIO_LOCALES.{lang} = ', 1)[1].strip().removesuffix(';'))
 
-def check():
-    ko, en = read_locale('ko'), read_locale('en')
+def check(root=ROOT):
+    ko, en = read_locale('ko', root), read_locale('en', root)
     errors = []
     for lang, data in [('ko', ko), ('en', en)]:
         if data['locale'] != lang or data['status'] not in ('ready', 'draft'):
@@ -51,7 +51,7 @@ def check():
             for i, (x, y) in enumerate(zip(a, b)):
                 compare_numbers(x, y, f'{path}[{i}]')
     compare_numbers(ko['slides'], en['slides'], 'slides')
-    main = (ROOT / 'js/main.js').read_text()
+    main = (root / 'js/main.js').read_text()
     for key in set(re.findall(r'copy\.([A-Za-z0-9_]+)', main)):
         if key not in ko['copy']:
             errors.append('missing copy: ' + key)
